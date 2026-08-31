@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "leaderboard": {
+      "title": "Leaderboard Score",
+      "description": "Global public leaderboard entries for the Skeletal Anatomy Quiz",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of score entry"
+        },
+        "name": {
+          "type": "string",
+          "description": "Student full name"
+        },
+        "school": {
+          "type": "string",
+          "description": "School name of student"
+        },
+        "grade": {
+          "type": "string",
+          "description": "Class or grade level of student"
+        },
+        "score": {
+          "type": "number",
+          "description": "Total quiz score"
+        },
+        "totalQuestions": {
+          "type": "number",
+          "description": "Total number of questions answered"
+        },
+        "correctCount": {
+          "type": "number",
+          "description": "Number of correct answers"
+        },
+        "timeSpentSeconds": {
+          "type": "number",
+          "description": "Time elapsed in seconds"
+        },
+        "streakRecord": {
+          "type": "number",
+          "description": "Longest combo streak of correct answers"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when quiz was completed"
+        },
+        "rankTier": {
+          "type": "string",
+          "description": "Rank title or achievement tier"
+        }
+      },
+      "required": ["id", "name", "score", "totalQuestions", "correctCount", "timestamp"]
+    }
+  }
+}

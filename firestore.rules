@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Leaderboard collection: Open read for all students, open write to create scores
+    match /leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if true
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 60
+        && request.resource.data.score is number
+        && request.resource.data.score >= 0;
+      allow update, delete: if false; // Protect submitted scores from being tampered with
+    }
+  }
+}

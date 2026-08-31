@@ -1,0 +1,6 @@
+{
+  "name": "3D Human Skeletal System Explorer",
+  "description": "Aplikasi edukasi interaktif 3D sistem rangka manusia untuk siswa SMA/MA dengan visualisasi anatomi, rotasi 360°, fokus tulang, dan materi lengkap Bahasa Indonesia & Latin.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
