@@ -142,22 +142,26 @@ export function SkeletonCanvas({
                 top: `${pos.y}px`,
                 transform: "translate(-50%, -50%)",
               }}
-              className={`absolute z-10 px-2 py-0.5 rounded-md text-[10px] font-semibold transition-all cursor-pointer pointer-events-auto border flex items-center gap-1 shadow-sm whitespace-nowrap ${
+              className={`absolute z-10 px-2 py-0.5 rounded-md text-[10px] font-bold transition-all cursor-pointer pointer-events-auto border-2 flex items-center gap-1 shadow-sm whitespace-nowrap ${
                 isSelected
-                  ? "bg-amber-500 text-white border-amber-300 scale-110 shadow-lg shadow-amber-950/60"
+                  ? isDark
+                    ? "bg-amber-400 text-black border-amber-200 scale-110 shadow-[2px_2px_0px_#d97706]"
+                    : "bg-amber-300 text-black border-black scale-110 shadow-[2px_2px_0px_#000]"
                   : isHovered
-                  ? "bg-cyan-500 text-white border-cyan-300 scale-105"
+                  ? isDark
+                    ? "bg-cyan-400 text-black border-cyan-200 scale-105 shadow-[2px_2px_0px_#06b6d4]"
+                    : "bg-lime-300 text-black border-black scale-105 shadow-[2px_2px_0px_#000]"
                   : isDark
-                  ? "bg-slate-900/80 text-slate-300 border-slate-700/80 hover:border-cyan-400 hover:text-white"
-                  : "bg-white/85 text-slate-800 border-slate-300 hover:border-sky-500"
+                  ? "bg-slate-900/90 text-slate-200 border-slate-700 hover:border-cyan-400 hover:text-white"
+                  : "bg-white text-black border-black hover:bg-yellow-100 shadow-[1.5px_1.5px_0px_#000]"
               }`}
             >
               <span
-                className={`w-1.5 h-1.5 rounded-full ${
-                  isSelected ? "bg-white" : isHovered ? "bg-amber-300" : "bg-cyan-400"
+                className={`w-2 h-2 rounded-full border border-black ${
+                  isSelected ? "bg-black dark:bg-white" : isHovered ? "bg-amber-400" : "bg-cyan-400"
                 }`}
               />
-              <span>{bone.commonName}</span>
+              <span className="text-black dark:text-inherit">{bone.commonName}</span>
             </button>
           );
         })}

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, FormEvent } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   X,
   Trophy,
@@ -16,6 +17,7 @@ import {
   GraduationCap,
   AlertCircle,
   Edit3,
+  Play,
 } from "lucide-react";
 import { QuizQuestion, QuizState } from "../../types/quiz";
 import { QUIZ_QUESTIONS, calculateRankTier } from "../../data/quizQuestions";
@@ -255,40 +257,47 @@ export function QuizModal({
   const currentRankTier = calculateRankTier(score, accuracy);
 
   return (
-    <div
-      id="quiz-modal-backdrop"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn"
-      onClick={onClose}
-    >
-      <div
-        id="quiz-modal-content"
-        onClick={(e) => e.stopPropagation()}
-        className={`relative w-full max-w-xl max-h-[92vh] flex flex-col rounded-2xl border shadow-2xl overflow-hidden transition-all ${
-          isDark
-            ? "bg-slate-900/95 border-slate-700 text-slate-100 shadow-cyan-950/40"
-            : "bg-white/95 border-slate-200 text-slate-800 shadow-sky-100"
-        }`}
-      >
-        {/* Top Gradient Ribbon */}
-        <div className="h-2 w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-amber-500" />
-
+    <AnimatePresence>
+      {isOpen && (
+        <div
+          id="quiz-modal-backdrop"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md"
+          onClick={onClose}
+        >
+          <motion.div
+            id="quiz-modal-content"
+            initial={{ opacity: 0, scale: 0.94, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.94, y: 16 }}
+            transition={{ type: "spring", damping: 26, stiffness: 320 }}
+            onClick={(e) => e.stopPropagation()}
+            className={`relative w-full max-w-xl max-h-[92vh] flex flex-col rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000000] dark:border-cyan-400 dark:shadow-[6px_6px_0px_#06b6d4] overflow-hidden transition-all ${
+              isDark
+                ? "bg-slate-900 text-slate-100"
+                : "bg-amber-50 text-slate-900"
+            }`}
+          >
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 border-b border-inherit flex items-center justify-between shrink-0">
+        <div
+          className={`p-4 sm:p-5 border-b-2 border-inherit flex items-center justify-between shrink-0 ${
+            isDark ? "bg-slate-800" : "bg-yellow-300"
+          }`}
+        >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-600/30">
-              <BrainCircuit className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-xl border-2 border-black bg-lime-400 text-black flex items-center justify-center font-bold shadow-[2px_2px_0px_#000]">
+              <BrainCircuit className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-lg sm:text-xl font-bold tracking-tight">
+                <h2 className="font-anton text-lg sm:text-xl uppercase tracking-wider text-black dark:text-white leading-none">
                   Kuis Anatomi Rangka
                 </h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-anton uppercase tracking-wider bg-white text-black border border-black shadow-[1px_1px_0px_#000]">
                   Biologi SMA
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
-                Uji pemahaman osteologi & catat namamu di Leaderboard sekolah
+              <p className="text-xs font-bold text-black dark:text-slate-200 mt-0.5">
+                Uji pemahaman osteologi & catat namamu di Leaderboard
               </p>
             </div>
           </div>
@@ -296,73 +305,62 @@ export function QuizModal({
           <button
             id="btn-close-quiz"
             onClick={onClose}
-            className={`p-2 rounded-xl border transition-colors ${
-              isDark
-                ? "border-slate-700 hover:bg-slate-800 text-slate-400 hover:text-white"
-                : "border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-slate-900"
-            }`}
+            className="p-1.5 rounded-lg border-2 border-black bg-white dark:bg-slate-800 dark:border-cyan-400 text-black dark:text-white shadow-[2px_2px_0px_#000] neo-press cursor-pointer"
             aria-label="Tutup Kuis"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5 stroke-[2.5]" />
           </button>
         </div>
 
         {/* Modal Body: State-dependent */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 custom-scrollbar">
           {/* STATE 1: IDLE / START SCREEN & REGISTRATION FORM */}
           {gameState === "idle" && (
             <div className="flex flex-col items-center text-center space-y-4 py-1">
-              <div className="relative">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-cyan-500 flex items-center justify-center text-white shadow-xl shadow-amber-500/20">
-                  <Trophy className="w-8 h-8 sm:w-10 sm:h-10" />
-                </div>
-                <div className="absolute -bottom-1 -right-1 p-1.5 rounded-full bg-cyan-500 text-white border-2 border-slate-900 shadow">
-                  <Sparkles className="w-3.5 h-3.5" />
-                </div>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border-3 border-black bg-yellow-400 flex items-center justify-center text-black shadow-[4px_4px_0px_#000] dark:border-cyan-300 dark:shadow-[4px_4px_0px_#06b6d4]">
+                <Trophy className="w-8 h-8 sm:w-10 sm:h-10 stroke-[2.5]" />
               </div>
 
               <div>
-                <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight">
+                <h3 className="font-anton text-xl sm:text-2xl uppercase tracking-wider text-black dark:text-white">
                   Tantangan Kuis Rangka Manusia
                 </h3>
-                <p
-                  className={`text-xs sm:text-sm mt-1 max-w-md ${
-                    isDark ? "text-slate-300" : "text-slate-600"
-                  }`}
-                >
+                <p className="text-xs sm:text-sm font-bold mt-1 max-w-md text-black dark:text-slate-200">
                   Lengkapi data diri sebelum mulai untuk mencatat nama, asal sekolah, dan kelas Anda di papan skor!
                 </p>
               </div>
 
               {/* STUDENT CREDENTIALS FORM */}
               <div
-                className={`w-full max-w-md p-4 rounded-xl border text-left space-y-3.5 shadow-sm ${
+                className={`w-full max-w-md p-4 rounded-xl border-2 shadow-[3px_3px_0px_#000000] dark:shadow-[3px_3px_0px_#06b6d4] text-left space-y-3.5 ${
                   isDark
-                    ? "bg-slate-800/60 border-slate-700/80 text-slate-200"
-                    : "bg-slate-50 border-slate-200 text-slate-800"
+                    ? "bg-slate-800 border-cyan-400 text-slate-200"
+                    : "bg-white border-black text-black"
                 }`}
               >
-                <div className="flex items-center justify-between border-b pb-2 border-inherit">
-                  <div className="flex items-center gap-2 text-xs font-bold text-cyan-400">
-                    <User className="w-4 h-4 text-cyan-400" />
+                <div className="flex items-center justify-between border-b-2 pb-2 border-inherit">
+                  <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-black dark:text-cyan-300">
+                    <User className="w-4 h-4 stroke-[2.5]" />
                     <span>Identitas Peserta Kuis</span>
                   </div>
-                  <span className="text-[10px] text-slate-400">Wajib Diisi</span>
+                  <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-yellow-300 text-black border border-black shadow-[1px_1px_0px_#000]">
+                    Wajib Diisi
+                  </span>
                 </div>
 
                 {/* Validation Error Notice */}
                 {formError && (
-                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-rose-500/15 border border-rose-500/40 text-rose-400 text-xs animate-shake">
-                    <AlertCircle className="w-4 h-4 shrink-0" />
+                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-rose-200 border-2 border-black text-rose-950 text-xs font-bold shadow-[2px_2px_0px_#000]">
+                    <AlertCircle className="w-4 h-4 shrink-0 stroke-[2.5]" />
                     <span>{formError}</span>
                   </div>
                 )}
 
                 {/* 1. Nama Lengkap */}
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold flex items-center gap-1 text-slate-300">
+                  <label className="text-xs font-black uppercase tracking-wide flex items-center gap-1 text-black dark:text-slate-200">
                     <span>Nama Lengkap:</span>
-                    <span className="text-rose-400">*</span>
+                    <span className="text-rose-600 font-black">*</span>
                   </label>
                   <div className="relative">
                     <input
@@ -373,22 +371,23 @@ export function QuizModal({
                         setPlayerName(e.target.value);
                         if (formError) setFormError(null);
                       }}
+                      placeholder="Masukkan nama lengkap Anda..."
                       maxLength={32}
-                      className={`w-full pl-9 pr-3 py-2 rounded-lg text-xs border outline-none transition-all ${
+                      className={`w-full pl-9 pr-3 py-2 rounded-lg text-xs font-bold border-2 outline-none transition-all ${
                         isDark
-                          ? "bg-slate-900/90 border-slate-700 text-white placeholder-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-                          : "bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                          ? "bg-slate-900 border-cyan-400 text-white placeholder-slate-400 focus:bg-slate-800"
+                          : "bg-amber-50/50 border-black text-black placeholder-slate-500 focus:bg-white"
                       }`}
                     />
-                    <User className="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400" />
+                    <User className="w-4 h-4 absolute left-2.5 top-2.5 text-black dark:text-slate-400 stroke-[2.5]" />
                   </div>
                 </div>
 
                 {/* 2. Asal Sekolah */}
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold flex items-center gap-1 text-slate-300">
+                  <label className="text-xs font-black uppercase tracking-wide flex items-center gap-1 text-black dark:text-slate-200">
                     <span>Asal Sekolah:</span>
-                    <span className="text-rose-400">*</span>
+                    <span className="text-rose-600 font-black">*</span>
                   </label>
                   <div className="relative">
                     <input
@@ -399,22 +398,23 @@ export function QuizModal({
                         setPlayerSchool(e.target.value);
                         if (formError) setFormError(null);
                       }}
+                      placeholder="Contoh: SMAN 1 Jakarta..."
                       maxLength={40}
-                      className={`w-full pl-9 pr-3 py-2 rounded-lg text-xs border outline-none transition-all ${
+                      className={`w-full pl-9 pr-3 py-2 rounded-lg text-xs font-bold border-2 outline-none transition-all ${
                         isDark
-                          ? "bg-slate-900/90 border-slate-700 text-white placeholder-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-                          : "bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                          ? "bg-slate-900 border-cyan-400 text-white placeholder-slate-400 focus:bg-slate-800"
+                          : "bg-amber-50/50 border-black text-black placeholder-slate-500 focus:bg-white"
                       }`}
                     />
-                    <School className="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400" />
+                    <School className="w-4 h-4 absolute left-2.5 top-2.5 text-black dark:text-slate-400 stroke-[2.5]" />
                   </div>
                 </div>
 
                 {/* 3. Kelas Berapa */}
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold flex items-center gap-1 text-slate-300">
+                  <label className="text-xs font-black uppercase tracking-wide flex items-center gap-1 text-black dark:text-slate-200">
                     <span>Kelas:</span>
-                    <span className="text-rose-400">*</span>
+                    <span className="text-rose-600 font-black">*</span>
                   </label>
                   <div className="relative">
                     <input
@@ -425,21 +425,22 @@ export function QuizModal({
                         setPlayerGrade(e.target.value);
                         if (formError) setFormError(null);
                       }}
+                      placeholder="Contoh: XI MIPA 2..."
                       maxLength={24}
-                      className={`w-full pl-9 pr-3 py-2 rounded-lg text-xs border outline-none transition-all ${
+                      className={`w-full pl-9 pr-3 py-2 rounded-lg text-xs font-bold border-2 outline-none transition-all ${
                         isDark
-                          ? "bg-slate-900/90 border-slate-700 text-white placeholder-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-                          : "bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                          ? "bg-slate-900 border-cyan-400 text-white placeholder-slate-400 focus:bg-slate-800"
+                          : "bg-amber-50/50 border-black text-black placeholder-slate-500 focus:bg-white"
                       }`}
                     />
-                    <GraduationCap className="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400" />
+                    <GraduationCap className="w-4 h-4 absolute left-2.5 top-2.5 text-black dark:text-slate-400 stroke-[2.5]" />
                   </div>
                 </div>
               </div>
 
               {/* Mode Selection */}
               <div className="w-full max-w-md space-y-2">
-                <label className="text-xs font-semibold text-slate-400 block text-left">
+                <label className="text-xs font-black uppercase tracking-wider text-black dark:text-slate-200 block text-left">
                   Pilih Jumlah Soal:
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -451,16 +452,18 @@ export function QuizModal({
                     <button
                       key={mode.count}
                       onClick={() => setQuestionCountMode(mode.count)}
-                      className={`p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
+                      className={`p-2.5 sm:p-3 rounded-xl border-2 text-center transition-all neo-press cursor-pointer ${
                         questionCountMode === mode.count
-                          ? "bg-cyan-500/15 border-cyan-400 text-cyan-400 ring-2 ring-cyan-500/30 font-bold"
+                          ? isDark
+                            ? "bg-cyan-400 text-slate-950 border-cyan-200 shadow-[2px_2px_0px_#06b6d4] font-black"
+                            : "bg-yellow-300 text-black border-black shadow-[2px_2px_0px_#000000] font-black"
                           : isDark
-                          ? "bg-slate-800/60 border-slate-700 text-slate-300 hover:bg-slate-800"
-                          : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
+                          ? "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-400 shadow-[1.5px_1.5px_0px_#000]"
+                          : "bg-white border-black text-slate-900 hover:bg-yellow-100 shadow-[1.5px_1.5px_0px_#000]"
                       }`}
                     >
-                      <div className="text-xs sm:text-sm font-bold">{mode.label}</div>
-                      <div className="text-[10px] text-slate-400">{mode.desc}</div>
+                      <div className="font-anton text-xs sm:text-sm uppercase tracking-wide">{mode.label}</div>
+                      <div className="text-[10px] font-bold opacity-75">{mode.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -471,10 +474,10 @@ export function QuizModal({
                 <button
                   id="btn-start-quiz"
                   onClick={() => startQuiz(questionCountMode)}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-600 shadow-lg shadow-cyan-950/40 hover:brightness-110 active:scale-98 transition-all"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-anton text-sm sm:text-base uppercase tracking-wider text-black bg-lime-400 hover:bg-lime-300 border-2 border-black shadow-[3px_3px_0px_#000000] dark:border-cyan-200 dark:shadow-[3px_3px_0px_#06b6d4] neo-press cursor-pointer"
                 >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Mulai Kerjakan Kuis</span>
+                  <Play className="w-4 h-4 fill-current stroke-[2.5]" />
+                  <span>Mulai Kuis</span>
                 </button>
 
                 <button
@@ -483,13 +486,13 @@ export function QuizModal({
                     onClose();
                     onOpenLeaderboard();
                   }}
-                  className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-xs border transition-all ${
+                  className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-anton text-xs sm:text-sm uppercase tracking-wider border-2 transition-all neo-press cursor-pointer ${
                     isDark
-                      ? "bg-slate-800 border-slate-700 text-amber-400 hover:bg-slate-700"
-                      : "bg-amber-50 border-amber-200 text-amber-800 hover:bg-amber-100"
+                      ? "bg-slate-800 border-cyan-400 text-amber-400 shadow-[2px_2px_0px_#06b6d4]"
+                      : "bg-yellow-100 border-black text-black shadow-[2px_2px_0px_#000000]"
                   }`}
                 >
-                  <Trophy className="w-4 h-4 text-amber-500" />
+                  <Trophy className="w-4 h-4 text-amber-500 stroke-[2.5]" />
                   <span>Papan Skor</span>
                 </button>
               </div>
@@ -500,48 +503,50 @@ export function QuizModal({
           {gameState === "playing" && currentQ && (
             <div className="space-y-4">
               {/* Active Student Badge */}
-              <div className="flex items-center justify-between text-xs px-1">
-                <div className="flex items-center gap-1.5 text-slate-400 truncate max-w-[280px]">
-                  <User className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                  <span className="font-bold text-slate-200 truncate">{playerName}</span>
-                  <span className="text-slate-500">•</span>
-                  <span className="text-slate-400 truncate">{playerSchool} ({playerGrade})</span>
+              <div className={`flex items-center justify-between text-xs px-3 py-2 rounded-xl border-2 ${
+                isDark ? "bg-slate-800 border-cyan-400" : "bg-yellow-100 border-black"
+              }`}>
+                <div className="flex items-center gap-1.5 text-slate-900 dark:text-slate-200 truncate max-w-[280px]">
+                  <User className="w-3.5 h-3.5 text-black dark:text-cyan-400 shrink-0 stroke-[2.5]" />
+                  <span className="font-extrabold truncate text-black dark:text-white">{playerName}</span>
+                  <span className="text-black dark:text-slate-400">•</span>
+                  <span className="font-semibold truncate text-slate-800 dark:text-slate-300">{playerSchool} ({playerGrade})</span>
                 </div>
-                <div className="text-[11px] font-mono text-cyan-400 font-bold shrink-0">
+                <div className="font-anton text-xs text-black dark:text-cyan-400 font-bold shrink-0">
                   {currentIndex + 1} / {activeQuestions.length}
                 </div>
               </div>
 
               {/* Question Progress & Live Stats Bar */}
               <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-cyan-400">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-anton uppercase tracking-wide text-xs sm:text-sm text-black dark:text-cyan-400">
                     Soal {currentIndex + 1}
                   </span>
-                  <span className="text-slate-500">/</span>
-                  <span className="text-slate-400">{activeQuestions.length}</span>
+                  <span className="font-bold text-slate-500">/</span>
+                  <span className="font-bold text-slate-700 dark:text-slate-400">{activeQuestions.length}</span>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   {/* Streak Combo Pill */}
                   {streak > 1 && (
-                    <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[11px] font-extrabold animate-pulse">
-                      <Flame className="w-3.5 h-3.5 text-orange-500 fill-current" />
+                    <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-400 text-black border border-black text-[11px] font-black uppercase shadow-[1px_1px_0px_#000]">
+                      <Flame className="w-3.5 h-3.5 text-rose-600 fill-current" />
                       <span>Streak x{streak}!</span>
                     </div>
                   )}
 
                   {/* Current Score */}
-                  <div className="font-mono font-bold text-sm text-amber-400">
-                    {score} pts
+                  <div className="font-anton text-sm sm:text-base text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+                    {score} PTS
                   </div>
                 </div>
               </div>
 
               {/* Progress Bar */}
-              <div className="w-full h-1.5 rounded-full bg-slate-700/30 overflow-hidden">
+              <div className="w-full h-2 rounded-full border-2 border-black dark:border-cyan-400 bg-slate-200 dark:bg-slate-800 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 transition-all duration-300"
+                  className="h-full bg-lime-400 dark:bg-cyan-400 transition-all duration-300"
                   style={{
                     width: `${((currentIndex + (isOptionLocked ? 1 : 0)) / activeQuestions.length) * 100}%`,
                   }}
@@ -549,28 +554,30 @@ export function QuizModal({
               </div>
 
               {/* Timer Bar */}
-              <div className="flex items-center justify-between gap-3 p-2.5 rounded-xl border bg-slate-800/30 border-slate-700/50">
+              <div className={`flex items-center justify-between gap-3 p-2.5 rounded-xl border-2 ${
+                isDark ? "bg-slate-800 border-cyan-400" : "bg-white border-black shadow-[2px_2px_0px_#000]"
+              }`}>
                 <div className="flex items-center gap-2 text-xs">
                   <Clock
-                    className={`w-4 h-4 ${
-                      timeLeft <= 5 ? "text-rose-500 animate-bounce" : "text-cyan-400"
+                    className={`w-4 h-4 stroke-[2.5] ${
+                      timeLeft <= 5 ? "text-rose-500 animate-bounce" : "text-black dark:text-cyan-400"
                     }`}
                   />
-                  <span className="font-medium text-slate-300">Waktu:</span>
+                  <span className="font-black uppercase tracking-wide text-slate-900 dark:text-slate-200">Waktu:</span>
                   <span
-                    className={`font-mono font-bold ${
-                      timeLeft <= 5 ? "text-rose-400 font-extrabold" : "text-cyan-300"
+                    className={`font-anton text-sm ${
+                      timeLeft <= 5 ? "text-rose-600 dark:text-rose-400 font-extrabold" : "text-black dark:text-cyan-300"
                     }`}
                   >
-                    {timeLeft}s
+                    {timeLeft}S
                   </span>
                 </div>
 
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                  <span className="text-[10px] px-2 py-0.5 rounded-md font-black uppercase bg-purple-200 text-purple-950 border border-black">
                     {currentQ.category}
                   </span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-slate-700/60 text-slate-300">
+                  <span className="text-[10px] px-2 py-0.5 rounded-md font-black uppercase bg-yellow-200 text-black border border-black">
                     {currentQ.difficulty}
                   </span>
                 </div>
@@ -578,7 +585,7 @@ export function QuizModal({
 
               {/* Question Text */}
               <div className="py-2">
-                <h4 className="text-base sm:text-lg font-bold leading-snug">
+                <h4 className="text-base sm:text-lg font-extrabold leading-snug text-slate-950 dark:text-white">
                   {currentQ.question}
                 </h4>
               </div>
@@ -591,16 +598,20 @@ export function QuizModal({
                   const isWrongSelected = isSelected && !isCorrect;
 
                   let cardStyle = isDark
-                    ? "bg-slate-800/70 border-slate-700/80 hover:bg-slate-800 hover:border-cyan-500/60 text-slate-200"
-                    : "bg-slate-50 border-slate-200 hover:bg-slate-100 hover:border-sky-300 text-slate-800";
+                    ? "bg-slate-800 border-slate-700 hover:border-cyan-400 text-slate-100 shadow-[2px_2px_0px_#000]"
+                    : "bg-white border-black hover:bg-yellow-50 text-slate-950 shadow-[2px_2px_0px_#000000]";
 
                   if (isOptionLocked) {
                     if (isCorrect) {
-                      cardStyle = "bg-emerald-500/20 border-emerald-500 text-emerald-300 font-bold ring-2 ring-emerald-500/40";
+                      cardStyle = isDark
+                        ? "bg-emerald-950 border-emerald-400 text-emerald-200 shadow-[3px_3px_0px_#10b981]"
+                        : "bg-emerald-200 border-black text-emerald-950 shadow-[3px_3px_0px_#000]";
                     } else if (isWrongSelected) {
-                      cardStyle = "bg-rose-500/20 border-rose-500 text-rose-300 font-bold ring-2 ring-rose-500/40";
+                      cardStyle = isDark
+                        ? "bg-rose-950 border-rose-400 text-rose-200 shadow-[3px_3px_0px_#f43f5e]"
+                        : "bg-rose-200 border-black text-rose-950 shadow-[3px_3px_0px_#000]";
                     } else {
-                      cardStyle = "opacity-40 border-slate-700/40 bg-transparent";
+                      cardStyle = "opacity-40 border-slate-400 bg-transparent text-slate-500";
                     }
                   }
 
@@ -611,30 +622,30 @@ export function QuizModal({
                       key={idx}
                       onClick={() => handleSelectOption(idx)}
                       disabled={isOptionLocked}
-                      className={`w-full flex items-center justify-between p-3.5 sm:p-4 rounded-xl border text-left text-xs sm:text-sm font-medium transition-all active:scale-99 ${cardStyle}`}
+                      className={`w-full flex items-center justify-between p-3.5 sm:p-4 rounded-xl border-2 text-left text-xs sm:text-sm font-bold transition-all neo-press cursor-pointer ${cardStyle}`}
                     >
                       <div className="flex items-center gap-3">
                         <span
-                          className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 ${
+                          className={`w-7 h-7 rounded-lg border-2 border-black flex items-center justify-center font-anton text-xs shrink-0 ${
                             isOptionLocked && isCorrect
-                              ? "bg-emerald-500 text-white"
+                              ? "bg-emerald-400 text-black"
                               : isOptionLocked && isWrongSelected
-                              ? "bg-rose-500 text-white"
+                              ? "bg-rose-400 text-black"
                               : isDark
-                              ? "bg-slate-700 text-slate-300"
-                              : "bg-slate-200 text-slate-700"
+                              ? "bg-cyan-400 text-black"
+                              : "bg-yellow-300 text-black"
                           }`}
                         >
                           {optionLetters[idx]}
                         </span>
-                        <span>{opt}</span>
+                        <span className="leading-snug">{opt}</span>
                       </div>
 
                       {isOptionLocked && isCorrect && (
-                        <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 stroke-[2.5]" />
                       )}
                       {isOptionLocked && isWrongSelected && (
-                        <XCircle className="w-5 h-5 text-rose-400 shrink-0" />
+                        <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 stroke-[2.5]" />
                       )}
                     </button>
                   );
@@ -645,28 +656,32 @@ export function QuizModal({
               {isOptionLocked && (
                 <div className="pt-2 space-y-3 animate-fadeIn">
                   <div
-                    className={`p-3.5 rounded-xl border text-xs space-y-1.5 ${
+                    className={`p-3.5 rounded-xl border-2 text-xs space-y-1.5 shadow-[2px_2px_0px_#000] ${
                       selectedOption === currentQ.correctIndex
-                        ? "bg-emerald-950/30 border-emerald-500/40 text-emerald-200"
-                        : "bg-rose-950/20 border-rose-500/30 text-rose-200"
+                        ? isDark
+                          ? "bg-emerald-950 border-emerald-400 text-emerald-200"
+                          : "bg-emerald-100 border-black text-emerald-950"
+                        : isDark
+                        ? "bg-rose-950 border-rose-400 text-rose-200"
+                        : "bg-rose-100 border-black text-rose-950"
                     }`}
                   >
-                    <div className="flex items-center gap-1.5 font-bold">
+                    <div className="flex items-center gap-1.5 font-black uppercase">
                       {selectedOption === currentQ.correctIndex ? (
                         <>
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                          <span className="text-emerald-400">Jawaban Benar! +Poin ditambahkan</span>
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
+                          <span>Jawaban Benar! +Poin ditambahkan</span>
                         </>
                       ) : (
                         <>
-                          <XCircle className="w-4 h-4 text-rose-400" />
-                          <span className="text-rose-400">
+                          <XCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 stroke-[2.5]" />
+                          <span>
                             {selectedOption === -1 ? "Waktu Habis!" : "Jawaban Kurang Tepat"}
                           </span>
                         </>
                       )}
                     </div>
-                    <p className="text-slate-300 leading-relaxed">
+                    <p className="font-semibold leading-relaxed text-slate-900 dark:text-slate-200">
                       {currentQ.explanation}
                     </p>
                   </div>
@@ -674,14 +689,14 @@ export function QuizModal({
                   <button
                     id="btn-next-question"
                     onClick={handleNext}
-                    className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-600 shadow-lg shadow-cyan-950/40 hover:brightness-110 active:scale-98 transition-all"
+                    className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-anton text-sm uppercase tracking-wider text-black bg-lime-400 hover:bg-lime-300 border-2 border-black shadow-[3px_3px_0px_#000] dark:border-cyan-200 dark:shadow-[3px_3px_0px_#06b6d4] neo-press cursor-pointer"
                   >
                     <span>
                       {currentIndex + 1 < activeQuestions.length
                         ? "Lanjut ke Soal Berikutnya"
                         : "Lihat Hasil & Skor Kuis"}
                     </span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                   </button>
                 </div>
               )}
@@ -691,94 +706,89 @@ export function QuizModal({
           {/* STATE 3: FINISHED SCREEN */}
           {gameState === "finished" && (
             <div className="flex flex-col items-center text-center space-y-4 py-2">
-              <div className="relative">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-500 to-indigo-600 flex items-center justify-center text-white shadow-xl shadow-amber-500/30 animate-bounce">
-                  <Trophy className="w-8 h-8 sm:w-10 sm:h-10" />
-                </div>
-                <div className="absolute -top-1 -right-1 p-1 rounded-full bg-emerald-500 text-white">
-                  <CheckCircle2 className="w-4 h-4" />
-                </div>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border-3 border-black bg-yellow-400 flex items-center justify-center text-black shadow-[4px_4px_0px_#000] dark:border-cyan-300 dark:shadow-[4px_4px_0px_#06b6d4]">
+                <Trophy className="w-8 h-8 sm:w-10 sm:h-10 stroke-[2.5]" />
               </div>
 
               <div>
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-amber-500/20 text-amber-400 border border-amber-500/40 mb-1">
+                <span className="inline-block px-3 py-1 rounded-md text-xs font-anton uppercase tracking-wider bg-yellow-300 text-black border-2 border-black shadow-[1.5px_1.5px_0px_#000] mb-1">
                   {currentRankTier}
                 </span>
-                <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight">
+                <h3 className="font-anton text-2xl sm:text-3xl uppercase tracking-wider text-black dark:text-white">
                   Kuis Selesai!
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Luar biasa, <strong>{playerName}</strong>! Kamu telah menyelesaikan tantangan anatomi rangka.
+                <p className="text-xs sm:text-sm font-bold text-black dark:text-slate-200 mt-0.5">
+                  Luar biasa, <strong className="text-black dark:text-white">{playerName}</strong>! Kamu telah menyelesaikan tantangan anatomi rangka.
                 </p>
               </div>
 
               {/* Student Identity Card in Results */}
               <div
-                className={`w-full p-3 rounded-xl border flex items-center justify-between text-xs ${
-                  isDark ? "bg-slate-800/50 border-slate-700/60 text-slate-300" : "bg-slate-50 border-slate-200 text-slate-700"
+                className={`w-full p-3.5 rounded-xl border-2 flex items-center justify-between text-xs shadow-[2.5px_2.5px_0px_#000] ${
+                  isDark ? "bg-slate-800 border-cyan-400 text-slate-200" : "bg-white border-black text-black"
                 }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
-                    <User className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg bg-yellow-300 text-black border border-black flex items-center justify-center font-bold">
+                    <User className="w-4 h-4 stroke-[2.5]" />
                   </div>
                   <div className="text-left min-w-0">
-                    <div className="font-bold text-slate-100 truncate">{playerName}</div>
-                    <div className="text-[11px] text-slate-400 truncate">
+                    <div className="font-black text-black dark:text-white truncate">{playerName}</div>
+                    <div className="text-[11px] font-bold text-black dark:text-slate-200 truncate">
                       {playerSchool} • {playerGrade}
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-md border border-emerald-500/20 shrink-0">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Tersimpan di Leaderboard</span>
+                <div className="flex items-center gap-1 text-[11px] font-black uppercase text-emerald-950 bg-emerald-300 dark:bg-emerald-950/80 dark:text-emerald-300 px-2 py-1 rounded-md border border-black dark:border-emerald-400 shrink-0">
+                  <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>Tersimpan</span>
                 </div>
               </div>
 
               {/* Score Breakdown Cards */}
-              <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 <div
-                  className={`p-3 rounded-xl border text-center ${
-                    isDark ? "bg-slate-800/60 border-slate-700" : "bg-slate-50 border-slate-200"
+                  className={`p-3 rounded-xl border-2 text-center shadow-[2px_2px_0px_#000] ${
+                    isDark ? "bg-slate-800 border-cyan-400" : "bg-amber-100 border-black"
                   }`}
                 >
-                  <div className="text-[11px] text-slate-400">Total Skor</div>
-                  <div className="text-lg font-black font-mono text-amber-400 mt-0.5">
+                  <div className="text-[10px] font-black uppercase tracking-wider text-black dark:text-slate-200">Total Skor</div>
+                  <div className="font-anton text-xl text-amber-700 dark:text-amber-400 mt-0.5">
                     {score}
                   </div>
                 </div>
 
                 <div
-                  className={`p-3 rounded-xl border text-center ${
-                    isDark ? "bg-slate-800/60 border-slate-700" : "bg-slate-50 border-slate-200"
+                  className={`p-3 rounded-xl border-2 text-center shadow-[2px_2px_0px_#000] ${
+                    isDark ? "bg-slate-800 border-cyan-400" : "bg-lime-100 border-black"
                   }`}
                 >
-                  <div className="text-[11px] text-slate-400">Akurasi</div>
-                  <div className="text-lg font-black text-emerald-400 mt-0.5">
+                  <div className="text-[10px] font-black uppercase tracking-wider text-black dark:text-slate-200">Akurasi</div>
+                  <div className="font-anton text-xl text-emerald-700 dark:text-emerald-400 mt-0.5">
                     {accuracy}%
                   </div>
                 </div>
 
                 <div
-                  className={`p-3 rounded-xl border text-center ${
-                    isDark ? "bg-slate-800/60 border-slate-700" : "bg-slate-50 border-slate-200"
+                  className={`p-3 rounded-xl border-2 text-center shadow-[2px_2px_0px_#000] ${
+                    isDark ? "bg-slate-800 border-cyan-400" : "bg-orange-100 border-black"
                   }`}
                 >
-                  <div className="text-[11px] text-slate-400">Max Streak</div>
-                  <div className="text-lg font-black text-orange-400 mt-0.5">
-                    🔥 x{maxStreak}
+                  <div className="text-[10px] font-black uppercase tracking-wider text-black dark:text-slate-200">Max Streak</div>
+                  <div className="font-anton text-xl text-orange-700 dark:text-orange-400 mt-0.5">
+                    x{maxStreak}
                   </div>
                 </div>
 
                 <div
-                  className={`p-3 rounded-xl border text-center ${
-                    isDark ? "bg-slate-800/60 border-slate-700" : "bg-slate-50 border-slate-200"
+                  className={`p-3 rounded-xl border-2 text-center shadow-[2px_2px_0px_#000] ${
+                    isDark ? "bg-slate-800 border-cyan-400" : "bg-sky-100 border-black"
                   }`}
                 >
-                  <div className="text-[11px] text-slate-400">Waktu</div>
-                  <div className="text-lg font-black font-mono text-cyan-400 mt-0.5">
-                    {totalTimeSpent}s
+                  <div className="text-[10px] font-black uppercase tracking-wider text-black dark:text-slate-200">Waktu</div>
+                  <div className="font-anton text-xl text-cyan-700 dark:text-cyan-400 mt-0.5">
+                    {totalTimeSpent}S
                   </div>
                 </div>
               </div>
@@ -788,9 +798,9 @@ export function QuizModal({
                 <button
                   id="btn-play-again"
                   onClick={() => startQuiz(questionCountMode)}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-600 shadow hover:brightness-110 active:scale-98 transition-all"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-anton text-xs sm:text-sm uppercase tracking-wider text-black bg-lime-400 hover:bg-lime-300 border-2 border-black shadow-[3px_3px_0px_#000] dark:border-cyan-200 dark:shadow-[3px_3px_0px_#06b6d4] neo-press cursor-pointer"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-4 h-4 stroke-[2.5]" />
                   <span>Main Kuis Lagi</span>
                 </button>
 
@@ -800,20 +810,23 @@ export function QuizModal({
                     onClose();
                     onOpenLeaderboard();
                   }}
-                  className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-xs border transition-all ${
+                  className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-anton text-xs sm:text-sm uppercase tracking-wider border-2 transition-all neo-press cursor-pointer ${
                     isDark
-                      ? "bg-slate-800 border-slate-700 text-amber-400 hover:bg-slate-700"
-                      : "bg-amber-50 border-amber-200 text-amber-800 hover:bg-amber-100"
+                      ? "bg-slate-800 border-cyan-400 text-amber-400 shadow-[2px_2px_0px_#06b6d4]"
+                      : "bg-yellow-200 border-black text-black shadow-[2px_2px_0px_#000000]"
                   }`}
                 >
-                  <Trophy className="w-4 h-4 text-amber-500" />
+                  <Trophy className="w-4 h-4 text-amber-500 stroke-[2.5]" />
                   <span>Buka Papan Peringkat</span>
                 </button>
               </div>
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
+      )}
+    </AnimatePresence>
   );
 }
+

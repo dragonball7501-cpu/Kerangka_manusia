@@ -1,4 +1,4 @@
-import { Mic, MicOff, Volume2, Sparkles, X, CheckCircle2, AlertCircle } from "lucide-react";
+import { Mic, MicOff, Volume2, X, CheckCircle2, AlertCircle, BookOpen } from "lucide-react";
 import { VoiceAssistantFeedback } from "../../hooks/useVoiceAssistant";
 
 interface VoiceFloatingHUDProps {
@@ -35,43 +35,43 @@ export function VoiceFloatingHUD({
       className="absolute top-16 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center max-w-[92vw] sm:max-w-md w-full px-2 pointer-events-auto transition-all animate-fadeIn"
     >
       <div
-        className={`w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-2xl border shadow-2xl backdrop-blur-xl transition-all ${
+        className={`w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl border-2 border-black dark:border-cyan-400 shadow-[3px_3px_0px_#000000] dark:shadow-[3px_3px_0px_#06b6d4] transition-all ${
           feedback?.type === "success"
             ? isDark
-              ? "bg-emerald-950/90 border-emerald-500/60 text-emerald-100 shadow-emerald-950/50 ring-1 ring-emerald-500/30"
-              : "bg-emerald-50/95 border-emerald-300 text-emerald-900 shadow-emerald-100 ring-1 ring-emerald-400"
+              ? "bg-emerald-950 text-emerald-100"
+              : "bg-emerald-200 text-emerald-950"
             : feedback?.type === "error"
             ? isDark
-              ? "bg-rose-950/90 border-rose-500/60 text-rose-100 shadow-rose-950/50"
-              : "bg-rose-50/95 border-rose-300 text-rose-900 shadow-rose-100"
+              ? "bg-rose-950 text-rose-100"
+              : "bg-rose-200 text-rose-950"
             : isListening
             ? isDark
-              ? "bg-slate-900/90 border-cyan-500/50 text-slate-100 shadow-cyan-950/60 ring-1 ring-cyan-500/40"
-              : "bg-white/95 border-cyan-400 text-slate-800 shadow-sky-100 ring-1 ring-cyan-400"
+              ? "bg-slate-900 text-slate-100"
+              : "bg-yellow-200 text-slate-950"
             : isDark
-            ? "bg-slate-900/90 border-slate-700 text-slate-200"
-            : "bg-white/95 border-slate-200 text-slate-800"
+            ? "bg-slate-900 text-slate-200"
+            : "bg-white text-slate-900"
         }`}
       >
         {/* Left: Animated Microphone / Status Icon */}
         <button
           onClick={onToggleListening}
-          className={`relative shrink-0 w-9 h-9 rounded-xl flex items-center justify-center font-bold transition-all active:scale-95 ${
+          className={`relative shrink-0 w-9 h-9 rounded-lg border-2 border-black flex items-center justify-center font-bold transition-all neo-press cursor-pointer ${
             isListening
-              ? "bg-gradient-to-tr from-cyan-500 to-emerald-500 text-white shadow-lg shadow-cyan-500/30"
+              ? "bg-cyan-400 text-black shadow-[1.5px_1.5px_0px_#000]"
               : isDark
-              ? "bg-slate-800 text-slate-400 hover:text-white"
-              : "bg-slate-100 text-slate-600 hover:text-slate-900"
+              ? "bg-slate-800 text-cyan-400 border-cyan-400 shadow-[1.5px_1.5px_0px_#06b6d4]"
+              : "bg-slate-100 text-black shadow-[1.5px_1.5px_0px_#000]"
           }`}
           title={isListening ? "Hentikan Suara" : "Mulai Suara"}
         >
           {isListening ? (
             <>
-              <Mic className="w-4 h-4 z-10" />
-              <span className="absolute inset-0 rounded-xl bg-cyan-400 animate-ping opacity-30" />
+              <Mic className="w-4 h-4 z-10 stroke-[2.5]" />
+              <span className="absolute inset-0 rounded-lg bg-cyan-400 animate-ping opacity-30" />
             </>
           ) : (
-            <MicOff className="w-4 h-4" />
+            <MicOff className="w-4 h-4 stroke-[2.5]" />
           )}
         </button>
 
@@ -83,17 +83,17 @@ export function VoiceFloatingHUD({
         >
           <div className="flex items-center gap-1.5">
             {feedback?.type === "success" ? (
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 stroke-[2.5] shrink-0" />
             ) : feedback?.type === "error" ? (
-              <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+              <AlertCircle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 stroke-[2.5] shrink-0" />
             ) : (
               <div className="flex items-center gap-0.5 shrink-0">
-                <span className="w-1 h-3 bg-cyan-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                <span className="w-1 h-4 bg-cyan-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                <span className="w-1 h-2.5 bg-cyan-400 rounded-full animate-bounce" />
+                <span className="w-1.5 h-3 bg-black dark:bg-cyan-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                <span className="w-1.5 h-4 bg-black dark:bg-cyan-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                <span className="w-1.5 h-2.5 bg-black dark:bg-cyan-400 rounded-full animate-bounce" />
               </div>
             )}
-            <span className="text-[11px] font-bold uppercase tracking-wider opacity-75 truncate">
+            <span className="font-anton text-[11px] uppercase tracking-wider text-black dark:text-cyan-300 truncate">
               {feedback?.type === "success"
                 ? "Suara Dikenali"
                 : feedback?.type === "error"
@@ -104,10 +104,10 @@ export function VoiceFloatingHUD({
             </span>
           </div>
 
-          <p className="text-xs sm:text-sm font-semibold truncate leading-tight mt-0.5">
+          <p className="text-xs sm:text-sm font-bold truncate leading-tight mt-0.5 text-slate-900 dark:text-slate-100">
             {feedback?.message ||
               (currentDisplaySpeech ? (
-                <span className="italic text-cyan-400 font-mono">
+                <span className="italic text-black dark:text-cyan-300 font-mono font-black">
                   "{currentDisplaySpeech}"
                 </span>
               ) : (
@@ -120,27 +120,27 @@ export function VoiceFloatingHUD({
         <div className="flex items-center gap-1 shrink-0">
           <button
             onClick={onOpenVoiceModal}
-            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${
+            className={`p-1.5 rounded-lg border-2 border-black text-xs font-anton uppercase flex items-center gap-1 transition-all neo-press cursor-pointer ${
               isDark
-                ? "bg-slate-800/80 hover:bg-slate-700 text-cyan-300"
-                : "bg-slate-100 hover:bg-slate-200 text-sky-700"
+                ? "bg-cyan-400 text-black border-cyan-300 shadow-[1.5px_1.5px_0px_#06b6d4]"
+                : "bg-white text-black shadow-[1.5px_1.5px_0px_#000]"
             }`}
             title="Buka panduan & tes suara"
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline text-[11px]">Panduan</span>
+            <BookOpen className="w-3.5 h-3.5 stroke-[2.5]" />
+            <span className="hidden sm:inline text-[10px] tracking-wide">Panduan</span>
           </button>
 
           <button
             onClick={onCloseFeedback}
-            className={`p-1.5 rounded-lg transition-colors ${
+            className={`p-1.5 rounded-lg border-2 border-black transition-colors neo-press cursor-pointer ${
               isDark
-                ? "hover:bg-slate-800 text-slate-400 hover:text-slate-200"
-                : "hover:bg-slate-200 text-slate-500 hover:text-slate-800"
+                ? "bg-slate-800 text-slate-200 border-cyan-400 shadow-[1.5px_1.5px_0px_#06b6d4]"
+                : "bg-white text-black shadow-[1.5px_1.5px_0px_#000]"
             }`}
-            title="Tutup Notifikasi"
+            aria-label="Tutup notifikasi"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-3.5 h-3.5 stroke-[2.5]" />
           </button>
         </div>
       </div>

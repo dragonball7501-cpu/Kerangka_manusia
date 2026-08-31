@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Send, Loader2, BrainCircuit, Lightbulb, AlertCircle } from "lucide-react";
+import { Send, Loader2, BrainCircuit, Lightbulb, AlertCircle } from "lucide-react";
 import { BoneData } from "../../types/bone";
 
 interface BoneAIAssistantProps {
@@ -56,30 +56,30 @@ export function BoneAIAssistant({ bone, isDark }: BoneAIAssistantProps) {
     <div className="space-y-3.5">
       {/* Header Badge */}
       <div
-        className={`p-3 rounded-xl border flex items-start gap-2.5 ${
+        className={`p-3 rounded-xl border-2 flex items-start gap-2.5 shadow-[3px_3px_0px_#000000] dark:shadow-[3px_3px_0px_#06b6d4] ${
           isDark
-            ? "bg-gradient-to-r from-purple-950/40 via-cyan-950/30 to-blue-950/40 border-purple-800/40 text-slate-200"
-            : "bg-gradient-to-r from-purple-50 via-sky-50 to-blue-50 border-purple-200 text-slate-800"
+            ? "bg-slate-800 border-cyan-400 text-slate-100"
+            : "bg-purple-100 border-black text-slate-950"
         }`}
       >
-        <div className="p-1.5 rounded-lg bg-purple-600 text-white shrink-0">
-          <BrainCircuit className="w-4 h-4" />
+        <div className="p-1.5 rounded-lg bg-purple-500 text-black border-2 border-black font-black shrink-0 shadow-[1px_1px_0px_#000]">
+          <BrainCircuit className="w-4 h-4 stroke-[2.5]" />
         </div>
         <div className="text-xs">
-          <p className="font-semibold text-purple-400 dark:text-purple-300 flex items-center gap-1.5">
-            Pakar Biologi AI (Gemini 3.1 Thinking)
+          <p className="font-black uppercase tracking-wider text-purple-700 dark:text-cyan-300 flex items-center gap-1.5">
+            Pakar Biologi AI (Gemini Thinking)
           </p>
-          <p className="text-slate-400 dark:text-slate-400 mt-0.5 leading-relaxed">
-            Tanyakan materi mendalam, mekanisme biomekanik, histologi, atau simulasi soal ujian biologi SMA tentang{" "}
-            <span className="font-medium text-slate-200 dark:text-slate-100">{bone.commonName}</span>.
+          <p className="text-slate-700 dark:text-slate-300 mt-0.5 leading-relaxed font-semibold">
+            Tanyakan materi mendalam, histologi, atau simulasi soal biologi SMA tentang{" "}
+            <span className="font-black underline text-black dark:text-white">{bone.commonName}</span>.
           </p>
         </div>
       </div>
 
       {/* Quick Prompts */}
       <div className="space-y-1.5">
-        <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-          <Lightbulb className="w-3 h-3 text-amber-400" />
+        <span className="text-[11px] font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1">
+          <Lightbulb className="w-3.5 h-3.5 text-amber-500 stroke-[2.5]" />
           Rekomendasi Pertanyaan Cepat:
         </span>
         <div className="grid grid-cols-1 gap-1.5">
@@ -88,10 +88,10 @@ export function BoneAIAssistant({ bone, isDark }: BoneAIAssistantProps) {
               key={idx}
               disabled={loading}
               onClick={() => handleAsk(prompt)}
-              className={`text-left p-2 rounded-lg text-xs transition-all border ${
+              className={`text-left p-2 rounded-lg text-xs font-bold transition-all border-2 neo-press cursor-pointer ${
                 isDark
-                  ? "bg-slate-800/60 hover:bg-slate-700/80 border-slate-700 text-slate-300 hover:text-white"
-                  : "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700"
+                  ? "bg-slate-800 hover:border-cyan-400 border-slate-700 text-slate-200 shadow-[1.5px_1.5px_0px_#000000]"
+                  : "bg-white hover:bg-yellow-100 border-black text-slate-900 shadow-[2px_2px_0px_#000000]"
               }`}
             >
               • {prompt}
@@ -114,26 +114,26 @@ export function BoneAIAssistant({ bone, isDark }: BoneAIAssistantProps) {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           disabled={loading}
-          className={`flex-1 px-3 py-2 text-xs rounded-lg border outline-none transition-all ${
+          className={`flex-1 px-3 py-2 text-xs font-semibold rounded-lg border-2 outline-none transition-all ${
             isDark
-              ? "bg-slate-800/80 border-slate-700 text-slate-100 placeholder-slate-500 focus:border-purple-500"
-              : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-purple-600"
+              ? "bg-slate-800 border-cyan-400 text-slate-100 placeholder-slate-400 focus:bg-slate-700 shadow-[2px_2px_0px_#06b6d4]"
+              : "bg-white border-black text-slate-900 placeholder-slate-500 focus:bg-yellow-50 shadow-[2px_2px_0px_#000000]"
           }`}
         />
         <button
           type="submit"
           disabled={loading || !question.trim()}
-          className="px-3.5 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+          className="px-4 py-2 rounded-lg bg-purple-400 hover:bg-purple-500 border-2 border-black disabled:opacity-50 text-black text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-[2px_2px_0px_#000000] dark:border-cyan-200 dark:shadow-[2px_2px_0px_#06b6d4] neo-press cursor-pointer"
         >
-          {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+          {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5 stroke-[2.5]" />}
           <span>Tanya</span>
         </button>
       </form>
 
       {/* Error state */}
       {error && (
-        <div className="p-3 rounded-lg bg-rose-950/40 border border-rose-800/60 text-rose-300 text-xs flex items-start gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
+        <div className="p-3 rounded-lg bg-rose-200 border-2 border-black text-rose-950 text-xs font-bold flex items-start gap-2 shadow-[2px_2px_0px_#000000]">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-700 stroke-[2.5]" />
           <p>{error}</p>
         </div>
       )}
@@ -141,17 +141,16 @@ export function BoneAIAssistant({ bone, isDark }: BoneAIAssistantProps) {
       {/* Loading Thinking Indicator */}
       {loading && (
         <div
-          className={`p-4 rounded-xl border flex flex-col items-center justify-center gap-2.5 text-xs text-center ${
-            isDark ? "bg-slate-800/50 border-slate-700 text-slate-300" : "bg-slate-50 border-slate-200 text-slate-700"
+          className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2.5 text-xs text-center shadow-[3px_3px_0px_#000000] dark:shadow-[3px_3px_0px_#06b6d4] ${
+            isDark ? "bg-slate-800 border-cyan-400 text-slate-200" : "bg-yellow-100 border-black text-slate-900"
           }`}
         >
-          <div className="relative flex items-center justify-center">
-            <Loader2 className="w-6 h-6 animate-spin text-purple-400" />
-            <Sparkles className="w-3 h-3 text-amber-400 absolute" />
+          <div className="flex items-center justify-center">
+            <Loader2 className="w-6 h-6 animate-spin text-purple-600 dark:text-cyan-400 stroke-[2.5]" />
           </div>
           <div>
-            <p className="font-semibold text-purple-400">Gemini 3.1 Pro sedang bernalar analitis...</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Memformulasikan konsep anatomi & biomekanika</p>
+            <p className="font-anton uppercase tracking-wider text-sm text-purple-800 dark:text-cyan-300">Gemini sedang menganalisis...</p>
+            <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-400 mt-0.5">Memformulasikan konsep anatomi & biomekanika</p>
           </div>
         </div>
       )}
@@ -159,25 +158,25 @@ export function BoneAIAssistant({ bone, isDark }: BoneAIAssistantProps) {
       {/* AI Answer Content */}
       {answer && !loading && (
         <div
-          className={`p-4 rounded-xl border space-y-2 text-xs leading-relaxed transition-all ${
+          className={`p-4 rounded-xl border-2 space-y-2 text-xs leading-relaxed transition-all shadow-[3px_3px_0px_#000000] dark:shadow-[3px_3px_0px_#06b6d4] ${
             isDark
-              ? "bg-slate-800/80 border-slate-700 text-slate-200 shadow-inner"
-              : "bg-slate-50 border-slate-200 text-slate-800 shadow-inner"
+              ? "bg-slate-800 border-cyan-400 text-slate-100"
+              : "bg-white border-black text-slate-900"
           }`}
         >
-          <div className="flex items-center justify-between pb-2 border-b border-inherit">
-            <div className="flex items-center gap-1.5 text-purple-400 font-semibold">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Penjelasan Anatomi AI:</span>
+          <div className="flex items-center justify-between pb-2 border-b-2 border-inherit">
+            <div className="flex items-center gap-1.5 font-anton uppercase tracking-wide text-purple-700 dark:text-cyan-300">
+              <BrainCircuit className="w-4 h-4 stroke-[2.5]" />
+              <span>Penjelasan Anatomi:</span>
             </div>
             <button
               onClick={() => setAnswer(null)}
-              className="text-[11px] text-slate-400 hover:text-slate-200 underline"
+              className="text-[11px] font-black uppercase text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
             >
-              Hapus Jawaban
+              Hapus
             </button>
           </div>
-          <div className="whitespace-pre-line text-slate-300 dark:text-slate-200 prose-sm font-sans">
+          <div className="whitespace-pre-line font-medium leading-relaxed">
             {answer}
           </div>
         </div>

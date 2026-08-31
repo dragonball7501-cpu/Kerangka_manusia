@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Search,
   ChevronDown,
-  ChevronRight,
   Brain,
   Activity,
   Shield,
@@ -110,51 +110,57 @@ export function BoneSidebar({
   return (
     <aside
       id="bone-navigation-sidebar"
-      className={`h-full flex flex-col transition-colors border-r ${
+      className={`h-full flex flex-col transition-colors border-r-2 sm:border-r-3 ${
         isDark
-          ? "bg-slate-900/95 border-slate-800 text-slate-200"
-          : "bg-white/95 border-slate-200 text-slate-800"
+          ? "bg-slate-900 border-cyan-400 text-slate-100 shadow-[3px_0_0_0_#06b6d4]"
+          : "bg-amber-50/90 border-black text-slate-900 shadow-[3px_0_0_0_#000000]"
       }`}
     >
       {/* Sidebar Header & Search */}
-      <div className="p-4 border-b border-inherit space-y-3">
+      <div className="p-3.5 sm:p-4 border-b-2 border-inherit space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-cyan-500" />
-            <h2 className="text-sm font-bold uppercase tracking-wider">
-              Daftar Tulang
+            <div className="w-6 h-6 rounded-md bg-yellow-300 border-2 border-black flex items-center justify-center text-black font-black shadow-[1.5px_1.5px_0px_#000]">
+              <Layers className="w-3.5 h-3.5 stroke-[2.5]" />
+            </div>
+            <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider">
+              Daftar Tulang Rangka
             </h2>
           </div>
           {onCloseMobile && (
             <button
               onClick={onCloseMobile}
-              className="lg:hidden p-1 rounded-md hover:bg-slate-800 text-slate-400"
+              className={`lg:hidden p-1 rounded-lg border-2 font-bold neo-press cursor-pointer ${
+                isDark
+                  ? "border-cyan-400 bg-slate-800 text-cyan-300 shadow-[2px_2px_0px_#06b6d4]"
+                  : "border-black bg-white text-black shadow-[2px_2px_0px_#000000]"
+              }`}
               aria-label="Tutup Menu"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 stroke-[2.5]" />
             </button>
           )}
         </div>
 
         {/* Search input */}
         <div className="relative">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 font-bold" />
           <input
             id="input-search-bones"
             type="text"
             placeholder="Cari tulang (Indonesia / Latin)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`w-full pl-9 pr-8 py-2 text-xs rounded-lg border outline-none transition-all ${
+            className={`w-full pl-9 pr-8 py-2 text-xs font-semibold rounded-lg border-2 outline-none transition-all ${
               isDark
-                ? "bg-slate-800/80 border-slate-700 text-slate-100 placeholder-slate-400 focus:border-cyan-500 focus:bg-slate-800"
-                : "bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white"
+                ? "bg-slate-800 border-cyan-400 text-slate-100 placeholder-slate-400 focus:bg-slate-700 shadow-[2px_2px_0px_#06b6d4]"
+                : "bg-white border-black text-slate-900 placeholder-slate-500 focus:bg-yellow-50 shadow-[2px_2px_0px_#000000]"
             }`}
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black dark:hover:text-white"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -162,39 +168,39 @@ export function BoneSidebar({
         </div>
 
         {/* Division Filter Tabs */}
-        <div className="grid grid-cols-3 gap-1 p-1 rounded-lg bg-slate-950/20 dark:bg-slate-950/40 border border-inherit text-[11px] font-medium text-center">
+        <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-slate-200/80 dark:bg-slate-800 border-2 border-black dark:border-cyan-400 text-[11px] font-black text-center shadow-[2px_2px_0px_#000000] dark:shadow-[2px_2px_0px_#06b6d4]">
           <button
             onClick={() => setDivisionFilter("all")}
-            className={`py-1 rounded-md transition-all ${
+            className={`py-1 rounded-lg transition-all border font-black uppercase text-[10px] sm:text-[11px] cursor-pointer ${
               divisionFilter === "all"
                 ? isDark
-                  ? "bg-cyan-900/60 text-cyan-300 font-semibold shadow-xs"
-                  : "bg-sky-100 text-sky-800 font-semibold shadow-xs"
-                : "text-slate-400 hover:text-slate-200"
+                  ? "bg-cyan-400 text-slate-950 border-cyan-200 shadow-[1.5px_1.5px_0px_#06b6d4]"
+                  : "bg-yellow-300 text-black border-black shadow-[1.5px_1.5px_0px_#000000]"
+                : "border-transparent text-slate-800 dark:text-slate-300 font-bold hover:text-black dark:hover:text-white"
             }`}
           >
             Semua (28)
           </button>
           <button
             onClick={() => setDivisionFilter("axial")}
-            className={`py-1 rounded-md transition-all ${
+            className={`py-1 rounded-lg transition-all border font-black uppercase text-[10px] sm:text-[11px] cursor-pointer ${
               divisionFilter === "axial"
                 ? isDark
-                  ? "bg-cyan-900/60 text-cyan-300 font-semibold shadow-xs"
-                  : "bg-sky-100 text-sky-800 font-semibold shadow-xs"
-                : "text-slate-400 hover:text-slate-200"
+                  ? "bg-cyan-400 text-slate-950 border-cyan-200 shadow-[1.5px_1.5px_0px_#06b6d4]"
+                  : "bg-lime-300 text-black border-black shadow-[1.5px_1.5px_0px_#000000]"
+                : "border-transparent text-slate-800 dark:text-slate-300 font-bold hover:text-black dark:hover:text-white"
             }`}
           >
             Aksial
           </button>
           <button
             onClick={() => setDivisionFilter("appendicular")}
-            className={`py-1 rounded-md transition-all ${
+            className={`py-1 rounded-lg transition-all border font-black uppercase text-[10px] sm:text-[11px] cursor-pointer ${
               divisionFilter === "appendicular"
                 ? isDark
-                  ? "bg-cyan-900/60 text-cyan-300 font-semibold shadow-xs"
-                  : "bg-sky-100 text-sky-800 font-semibold shadow-xs"
-                : "text-slate-400 hover:text-slate-200"
+                  ? "bg-cyan-400 text-slate-950 border-cyan-200 shadow-[1.5px_1.5px_0px_#06b6d4]"
+                  : "bg-pink-300 text-black border-black shadow-[1.5px_1.5px_0px_#000000]"
+                : "border-transparent text-slate-800 dark:text-slate-300 font-bold hover:text-black dark:hover:text-white"
             }`}
           >
             Apendikular
@@ -216,14 +222,14 @@ export function BoneSidebar({
             <div
               key={group.id}
               id={`group-card-${group.id}`}
-              className={`rounded-xl border transition-all ${
+              className={`rounded-xl border-2 transition-all ${
                 isGroupActive
                   ? isDark
-                    ? "bg-slate-800/90 border-cyan-500/80 shadow-md shadow-cyan-950/40"
-                    : "bg-sky-50/80 border-sky-400 shadow-md shadow-sky-100"
+                    ? "bg-slate-800 border-cyan-400 shadow-[3px_3px_0px_#06b6d4]"
+                    : "bg-yellow-100 border-black shadow-[3px_3px_0px_#000000]"
                   : isDark
-                  ? "bg-slate-800/40 border-slate-700/60 hover:border-slate-600"
-                  : "bg-slate-50/70 border-slate-200/80 hover:border-slate-300"
+                  ? "bg-slate-800/80 border-slate-700 hover:border-cyan-400 shadow-[2px_2px_0px_#000000]"
+                  : "bg-white border-black hover:bg-slate-50 shadow-[2.5px_2.5px_0px_#000000]"
               }`}
             >
               {/* Group Accordion Header */}
@@ -233,19 +239,19 @@ export function BoneSidebar({
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div
-                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: `${group.colorHex}22`, color: group.colorHex }}
+                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border-2 border-black shadow-[1px_1px_0px_#000000] dark:border-white"
+                    style={{ backgroundColor: group.colorHex, color: "#000000" }}
                   >
-                    <IconComp className="w-4 h-4" />
+                    <IconComp className="w-4 h-4 stroke-[2.5]" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-bold truncate">{group.name}</span>
-                      <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-700/50 text-slate-300 dark:text-slate-400 font-mono">
+                      <span className="text-xs font-black truncate">{group.name}</span>
+                      <span className="text-[10px] px-1.5 py-0.2 rounded-md bg-yellow-300 text-black border border-black dark:bg-cyan-400 dark:text-black font-mono font-extrabold shadow-[1px_1px_0px_#000]">
                         {bonesInGroup.length}
                       </span>
                     </div>
-                    <p className="text-[10px] text-slate-400 truncate italic">
+                    <p className="text-[10px] text-slate-800 dark:text-slate-300 truncate italic font-bold">
                       {group.latinName}
                     </p>
                   </div>
@@ -261,84 +267,97 @@ export function BoneSidebar({
                         onSelectGroup(group.id);
                       }
                     }}
-                    className={`p-1 rounded-md text-[10px] font-medium transition-colors ${
+                    className={`p-1.5 rounded-lg text-[10px] font-bold border-2 transition-all neo-press cursor-pointer ${
                       isGroupActive
-                        ? "bg-cyan-500 text-white font-semibold"
-                        : "hover:bg-slate-700/60 text-slate-400 hover:text-slate-200"
+                        ? "bg-cyan-400 text-black border-black shadow-[1.5px_1.5px_0px_#000000]"
+                        : isDark
+                        ? "bg-slate-700 border-slate-600 text-slate-300 hover:text-white"
+                        : "bg-slate-100 border-black text-black shadow-[1.5px_1.5px_0px_#000000]"
                     }`}
                     title={isGroupActive ? "Batalkan Fokus Grup" : "Fokus Kamera ke Grup"}
                   >
-                    <Eye className="w-3.5 h-3.5" />
+                    <Eye className="w-3.5 h-3.5 stroke-[2.5]" />
                   </button>
 
-                  <span className="text-slate-400 group-hover:text-slate-200">
-                    {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                  <span className={`text-black dark:text-slate-300 transition-transform duration-300 ${isExpanded ? "rotate-0" : "-rotate-90"}`}>
+                    <ChevronDown className="w-4 h-4 stroke-[2.5]" />
                   </span>
                 </div>
               </div>
 
-              {/* Bone Items in this group */}
-              {isExpanded && (
-                <div className="px-2 pb-2 pt-0.5 space-y-1 border-t border-inherit/40">
-                  {bonesInGroup.map((bone) => {
-                    const isSelected = selectedBoneId === bone.id;
-                    const isHovered = hoveredBoneId === bone.id;
+              {/* Bone Items in this group with smooth animation */}
+              <AnimatePresence initial={false}>
+                {isExpanded && (
+                  <motion.div
+                    key={`content-${group.id}`}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-2 pb-2 pt-1 space-y-1.5 border-t-2 border-inherit">
+                      {bonesInGroup.map((bone) => {
+                        const isSelected = selectedBoneId === bone.id;
+                        const isHovered = hoveredBoneId === bone.id;
 
-                    return (
-                      <button
-                        key={bone.id}
-                        id={`btn-bone-item-${bone.id}`}
-                        onClick={() => {
-                          onSelectBone(bone.id);
-                          if (onCloseMobile) onCloseMobile();
-                        }}
-                        onMouseEnter={() => onHoverBone(bone.id)}
-                        onMouseLeave={() => onHoverBone(null)}
-                        className={`w-full text-left px-2.5 py-2 rounded-lg text-xs transition-all flex items-center justify-between ${
-                          isSelected
-                            ? isDark
-                              ? "bg-amber-500/20 border border-amber-500/80 text-amber-300 font-semibold shadow-xs"
-                              : "bg-amber-50 border border-amber-400 text-amber-900 font-semibold shadow-xs"
-                            : isHovered
-                            ? isDark
-                              ? "bg-cyan-950/60 border border-cyan-700/50 text-cyan-300"
-                              : "bg-sky-50 border border-sky-300 text-sky-900"
-                            : isDark
-                            ? "hover:bg-slate-700/40 text-slate-300"
-                            : "hover:bg-slate-100 text-slate-700"
-                        }`}
-                      >
-                        <div className="min-w-0 pr-2">
-                          <div className="flex items-center gap-1.5">
-                            {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 shrink-0" />}
-                            <span className="truncate">{bone.commonName}</span>
-                          </div>
-                          <span className="text-[10px] text-slate-400 block truncate italic font-serif">
-                            {bone.latinName}
-                          </span>
-                        </div>
+                        return (
+                          <button
+                            key={bone.id}
+                            id={`btn-bone-item-${bone.id}`}
+                            onClick={() => {
+                              onSelectBone(bone.id);
+                              if (onCloseMobile) onCloseMobile();
+                            }}
+                            onMouseEnter={() => onHoverBone(bone.id)}
+                            onMouseLeave={() => onHoverBone(null)}
+                            className={`w-full text-left px-2.5 py-2 rounded-lg text-xs transition-all flex items-center justify-between border-2 cursor-pointer font-bold ${
+                              isSelected
+                                ? isDark
+                                ? "bg-amber-400 border-black text-slate-950 shadow-[2px_2px_0px_#000000]"
+                                : "bg-amber-300 border-black text-black shadow-[2px_2px_0px_#000000]"
+                              : isHovered
+                              ? isDark
+                                ? "bg-cyan-950 border-cyan-400 text-cyan-300 shadow-[2px_2px_0px_#06b6d4]"
+                                : "bg-sky-100 border-black text-black shadow-[2px_2px_0px_#000000]"
+                              : isDark
+                              ? "bg-slate-900/60 border-slate-700 text-slate-300 hover:border-slate-500"
+                              : "bg-white border-slate-300 text-slate-900 hover:border-black hover:shadow-[1.5px_1.5px_0px_#000000]"
+                            }`}
+                          >
+                            <div className="min-w-0 pr-2">
+                              <div className="flex items-center gap-1.5">
+                                {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-black stroke-[3] shrink-0" />}
+                                <span className="truncate">{bone.commonName}</span>
+                              </div>
+                              <span className="text-[10px] text-slate-700 dark:text-slate-300 block truncate italic font-serif font-bold">
+                                {bone.latinName}
+                              </span>
+                            </div>
 
-                        <span
-                          className={`text-[9px] px-1.5 py-0.5 rounded-sm whitespace-nowrap shrink-0 ${
-                            isDark
-                              ? "bg-slate-900/60 text-slate-400"
-                              : "bg-slate-200/80 text-slate-600"
-                          }`}
-                        >
-                          {bone.shapeType.split(" ")[1] || bone.shapeType}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+                            <span
+                              className={`text-[9px] px-1.5 py-0.5 rounded-md font-extrabold uppercase whitespace-nowrap shrink-0 border border-black ${
+                                isDark
+                                  ? "bg-slate-800 text-cyan-300 border-cyan-400"
+                                  : "bg-yellow-200 text-black border-black"
+                              }`}
+                            >
+                              {bone.shapeType.split(" ")[1] || bone.shapeType}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           );
         })}
       </div>
 
       {/* Sidebar Footer Info, Quiz, & Developer Button */}
-      <div className="p-3 border-t border-inherit space-y-2">
+      <div className="p-3 border-t-2 border-inherit space-y-2">
         {onOpenQuiz && (
           <div className="flex gap-1.5">
             <button
@@ -347,9 +366,9 @@ export function BoneSidebar({
                 onOpenQuiz();
                 if (onCloseMobile) onCloseMobile();
               }}
-              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 shadow-sm hover:brightness-110 active:scale-95 transition-all"
+              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-black bg-amber-300 hover:bg-amber-400 border-2 border-black shadow-[2.5px_2.5px_0px_#000000] dark:border-cyan-200 dark:shadow-[2.5px_2.5px_0px_#06b6d4] neo-press cursor-pointer"
             >
-              <BrainCircuit className="w-3.5 h-3.5" />
+              <BrainCircuit className="w-3.5 h-3.5 stroke-[2.5]" />
               <span>Main Kuis</span>
             </button>
 
@@ -360,14 +379,14 @@ export function BoneSidebar({
                   onOpenLeaderboard();
                   if (onCloseMobile) onCloseMobile();
                 }}
-                className={`p-2 rounded-xl border flex items-center justify-center transition-all ${
+                className={`p-2 rounded-xl border-2 flex items-center justify-center font-bold neo-press cursor-pointer ${
                   isDark
-                    ? "bg-slate-800 border-slate-700 text-amber-400 hover:bg-slate-700"
-                    : "bg-amber-50 border-amber-200 text-amber-800 hover:bg-amber-100"
+                    ? "bg-slate-800 border-cyan-400 text-amber-400 shadow-[2px_2px_0px_#06b6d4]"
+                    : "bg-yellow-100 border-black text-black shadow-[2px_2px_0px_#000000]"
                 }`}
                 title="Lihat Peringkat Leaderboard"
               >
-                <Trophy className="w-4 h-4 text-amber-500" />
+                <Trophy className="w-4 h-4 text-amber-500 stroke-[2.5]" />
               </button>
             )}
           </div>
@@ -380,33 +399,33 @@ export function BoneSidebar({
               onOpenDeveloperModal();
               if (onCloseMobile) onCloseMobile();
             }}
-            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl border text-xs font-semibold transition-all active:scale-98 group ${
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl border-2 text-xs font-bold neo-press cursor-pointer group ${
               isDark
-                ? "bg-gradient-to-r from-slate-800/80 to-slate-900/90 border-slate-700 hover:border-cyan-500/80 text-slate-200 hover:text-white shadow-sm hover:shadow-cyan-950/40"
-                : "bg-gradient-to-r from-slate-50 to-sky-50/50 border-slate-200 hover:border-sky-400 text-slate-700 hover:text-sky-900 shadow-xs"
+                ? "bg-slate-800 border-cyan-400 text-slate-100 shadow-[2.5px_2.5px_0px_#06b6d4]"
+                : "bg-white border-black text-slate-900 shadow-[2.5px_2.5px_0px_#000000]"
             }`}
           >
             <div className="flex items-center gap-2">
               <div
-                className={`w-6 h-6 rounded-lg flex items-center justify-center ${
-                  isDark ? "bg-cyan-500/20 text-cyan-400" : "bg-sky-100 text-sky-600"
+                className={`w-6 h-6 rounded-md border border-black flex items-center justify-center font-black ${
+                  isDark ? "bg-cyan-400 text-black" : "bg-lime-400 text-black"
                 }`}
               >
-                <Code2 className="w-3.5 h-3.5" />
+                <Code2 className="w-3.5 h-3.5 stroke-[2.5]" />
               </div>
               <div className="text-left">
                 <div className="flex items-center gap-1.5 leading-none">
-                  <span className="font-bold">Developer Web</span>
-                  <Sparkles className="w-2.5 h-2.5 text-cyan-400 opacity-75" />
+                  <span className="font-black">Developer Web</span>
+                  <Sparkles className="w-2.5 h-2.5 text-amber-500 fill-current" />
                 </div>
-                <span className="text-[10px] text-slate-400 font-normal leading-tight block mt-0.5">
+                <span className="text-[10px] text-slate-700 dark:text-slate-300 font-bold leading-tight block mt-0.5">
                   by MUHAMMAD ZUBAIR AKMA
                 </span>
               </div>
             </div>
             <span
-              className={`text-[10px] px-2 py-0.5 rounded-md font-medium ${
-                isDark ? "bg-slate-800 text-cyan-400 group-hover:bg-cyan-950" : "bg-white text-sky-700 group-hover:bg-sky-100"
+              className={`text-[10px] px-2 py-0.5 rounded-md font-black uppercase border border-black ${
+                isDark ? "bg-cyan-400 text-black" : "bg-yellow-300 text-black"
               }`}
             >
               Info
@@ -415,12 +434,12 @@ export function BoneSidebar({
         )}
 
         <div
-          className={`pt-1 text-[11px] flex items-center justify-between ${
-            isDark ? "text-slate-400" : "text-slate-500"
+          className={`pt-1 text-[11px] font-extrabold flex items-center justify-between ${
+            isDark ? "text-slate-300" : "text-slate-800"
           }`}
         >
           <span>Rangka Manusia (~206 Tulang)</span>
-          <span className="font-mono text-[10px] text-cyan-500">v1.0 SMA/MA</span>
+          <span className="font-mono text-[10px] font-extrabold text-cyan-600 dark:text-cyan-400 bg-black/10 dark:bg-cyan-950/60 px-1.5 py-0.5 rounded">v1.0 SMA</span>
         </div>
       </div>
     </aside>

@@ -1,9 +1,9 @@
+import { motion, AnimatePresence } from "motion/react";
 import {
   Mic,
   MicOff,
   Volume2,
   VolumeX,
-  Sparkles,
   X,
   Globe,
   CheckCircle2,
@@ -117,150 +117,139 @@ export function VoiceAssistantModal({
   onTestCommand,
   isDark,
 }: VoiceAssistantModalProps) {
-  if (!isOpen) return null;
-
   return (
-    <div
-      id="voice-assistant-modal-backdrop"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn"
-      onClick={onClose}
-    >
-      <div
-        id="voice-assistant-modal-content"
-        className={`relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-3xl border shadow-2xl overflow-hidden transition-all ${
-          isDark
-            ? "bg-slate-900 border-slate-700 text-slate-100 shadow-cyan-950/40"
-            : "bg-white border-slate-200 text-slate-800 shadow-slate-200/80"
-        }`}
-        onClick={(e) => e.stopPropagation()}
-      >
+    <AnimatePresence>
+      {isOpen && (
+        <div
+          id="voice-assistant-modal-backdrop"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-sm"
+          onClick={onClose}
+        >
+          <motion.div
+            id="voice-assistant-modal-content"
+            initial={{ opacity: 0, scale: 0.94, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.94, y: 16 }}
+            transition={{ type: "spring", damping: 26, stiffness: 320 }}
+            className={`relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000000] dark:border-cyan-400 dark:shadow-[6px_6px_0px_#06b6d4] overflow-hidden transition-all ${
+              isDark
+                ? "bg-slate-900 text-slate-100"
+                : "bg-amber-50 text-slate-900"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
         {/* Modal Header */}
         <div
-          className={`flex items-center justify-between px-5 py-4 border-b ${
-            isDark ? "border-slate-800 bg-slate-900/80" : "border-slate-100 bg-slate-50/80"
+          className={`flex items-center justify-between px-5 py-4 border-b-2 border-inherit ${
+            isDark ? "bg-slate-800" : "bg-yellow-300"
           }`}
         >
           <div className="flex items-center gap-3">
             <div
-              className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-md ${
+              className={`w-10 h-10 rounded-xl border-2 border-black flex items-center justify-center font-bold shadow-[2px_2px_0px_#000] ${
                 isListening
-                  ? "bg-gradient-to-tr from-cyan-500 to-emerald-500 text-white animate-pulse"
+                  ? "bg-emerald-400 text-black animate-pulse"
                   : isDark
-                  ? "bg-slate-800 text-cyan-400 border border-slate-700"
-                  : "bg-sky-100 text-sky-700"
+                  ? "bg-slate-700 text-cyan-300 border-cyan-400"
+                  : "bg-white text-black"
               }`}
             >
-              <Mic className="w-5 h-5" />
+              <Mic className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base sm:text-lg font-bold tracking-tight">
+                <h2 className="font-anton text-base sm:text-lg uppercase tracking-wider text-black dark:text-white leading-none">
                   Voice Assistant Rangka 3D
                 </h2>
                 <span
-                  className={`px-2 py-0.5 text-[10px] font-bold rounded-full uppercase tracking-wider ${
+                  className={`px-2 py-0.5 text-[10px] font-anton uppercase tracking-wider rounded-md border border-black ${
                     isListening
-                      ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-pulse"
+                      ? "bg-emerald-400 text-black animate-pulse shadow-[1px_1px_0px_#000]"
                       : isDark
-                      ? "bg-slate-800 text-slate-400"
-                      : "bg-slate-200 text-slate-700"
+                      ? "bg-slate-800 text-slate-300 border-cyan-400"
+                      : "bg-white text-black"
                   }`}
                 >
                   {isListening ? "● Mendengarkan" : "Siap"}
                 </span>
               </div>
-              <p className={`text-xs ${isDark ? "text-slate-400" : "text-slate-500"}`}>
-                Ucapkan nama tulang (contoh: "Cranium", "Femur") untuk langsung menyorotnya di model 3D
+              <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 mt-0.5">
+                Ucapkan nama tulang untuk langsung menyorotnya di model 3D
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className={`p-2 rounded-xl transition-colors ${
-              isDark
-                ? "hover:bg-slate-800 text-slate-400 hover:text-white"
-                : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"
-            }`}
+            className="p-1.5 rounded-lg border-2 border-black bg-white dark:bg-slate-800 dark:border-cyan-400 text-black dark:text-white shadow-[2px_2px_0px_#000] neo-press cursor-pointer"
             aria-label="Tutup"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 stroke-[2.5]" />
           </button>
         </div>
 
         {/* Modal Body (Scrollable) */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-5">
+        <div className="flex-1 overflow-y-auto p-5 space-y-5 custom-scrollbar">
           {/* Main Interactive Mic Centerpiece */}
           <div
-            className={`flex flex-col items-center justify-center p-6 rounded-3xl border text-center transition-all ${
+            className={`flex flex-col items-center justify-center p-6 rounded-2xl border-2 text-center transition-all shadow-[4px_4px_0px_#000000] dark:shadow-[4px_4px_0px_#06b6d4] ${
               isListening
                 ? isDark
-                  ? "bg-gradient-to-b from-cyan-950/60 to-slate-900/90 border-cyan-500/40 shadow-inner"
-                  : "bg-gradient-to-b from-sky-50 to-white border-cyan-300 shadow-inner"
+                  ? "bg-slate-800 border-cyan-400"
+                  : "bg-yellow-200 border-black"
                 : isDark
-                ? "bg-slate-800/40 border-slate-800"
-                : "bg-slate-50 border-slate-200"
+                ? "bg-slate-850 border-cyan-400/50"
+                : "bg-white border-black"
             }`}
           >
-            {/* Big Mic Button with Glowing Rings */}
+            {/* Big Mic Button */}
             <div className="relative mb-4">
-              {isListening && (
-                <>
-                  <div className="absolute -inset-4 rounded-full bg-cyan-500/20 animate-ping" />
-                  <div className="absolute -inset-2 rounded-full bg-cyan-400/30 animate-pulse" />
-                </>
-              )}
-
               <button
                 id="btn-voice-assistant-toggle"
                 onClick={onToggleListening}
-                className={`relative w-20 h-20 rounded-full flex items-center justify-center font-bold text-white shadow-xl transition-all active:scale-95 ${
+                className={`relative w-20 h-20 rounded-2xl border-3 border-black flex items-center justify-center font-black transition-all neo-press cursor-pointer ${
                   isListening
-                    ? "bg-gradient-to-tr from-cyan-500 via-teal-500 to-emerald-500 shadow-cyan-500/40 ring-4 ring-cyan-400/30"
+                    ? "bg-emerald-400 text-black shadow-[4px_4px_0px_#000] ring-4 ring-emerald-300"
                     : isDark
-                    ? "bg-gradient-to-tr from-slate-700 to-slate-800 hover:from-cyan-700 hover:to-blue-700 text-slate-200 shadow-slate-950"
-                    : "bg-gradient-to-tr from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-sky-200"
+                    ? "bg-cyan-400 text-black shadow-[4px_4px_0px_#06b6d4] border-cyan-200"
+                    : "bg-yellow-400 hover:bg-yellow-300 text-black shadow-[4px_4px_0px_#000000]"
                 }`}
                 title={isListening ? "Klik untuk menghentikan pendengar suara" : "Klik untuk mulai berbicara"}
               >
-                {isListening ? (
-                  <Mic className="w-8 h-8 animate-bounce" />
-                ) : (
-                  <Mic className="w-8 h-8" />
-                )}
+                <Mic className="w-9 h-9 stroke-[2.5]" />
               </button>
             </div>
 
-            <h3 className="text-base font-bold mb-1">
+            <h3 className="font-anton text-base uppercase tracking-wider mb-1 text-black dark:text-white">
               {isListening ? "Silakan Bicara Sekarang..." : "Klik Mikrofon untuk Mulai"}
             </h3>
 
             {/* Realtime Live Speech Feedback Box */}
             <div
-              className={`w-full max-w-md mt-2 px-4 py-3 rounded-2xl border text-sm font-medium transition-all ${
+              className={`w-full max-w-md mt-2 px-4 py-3 rounded-xl border-2 text-sm font-bold transition-all shadow-[2px_2px_0px_#000000] ${
                 feedback?.type === "success"
                   ? isDark
-                    ? "bg-emerald-950/80 border-emerald-500/60 text-emerald-200"
-                    : "bg-emerald-50 border-emerald-300 text-emerald-800"
+                    ? "bg-emerald-950 border-emerald-400 text-emerald-200"
+                    : "bg-emerald-200 border-black text-emerald-950"
                   : isDark
-                  ? "bg-slate-900/90 border-slate-700 text-slate-300"
-                  : "bg-white border-slate-200 text-slate-700"
+                  ? "bg-slate-900 border-cyan-400 text-slate-200"
+                  : "bg-yellow-50 border-black text-slate-900"
               }`}
             >
               {feedback ? (
                 <div className="flex items-center justify-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.5] shrink-0" />
                   <span>{feedback.message}</span>
                 </div>
               ) : interimTranscript || transcript ? (
                 <div className="flex items-center justify-center gap-2">
-                  <Sparkles className="w-4 h-4 text-cyan-400 shrink-0 animate-spin" />
-                  <span className="italic font-mono text-cyan-400 font-semibold">
+                  <Mic className="w-4 h-4 text-amber-500 stroke-[2.5] shrink-0 animate-pulse" />
+                  <span className="italic font-mono text-black dark:text-cyan-300 font-black">
                     "{interimTranscript || transcript}"
                   </span>
                 </div>
               ) : (
-                <span className="opacity-60 text-xs">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
                   {isListening
                     ? "Mendengarkan ucapan Anda (Bahasa Indonesia & Latin)..."
                     : "Coba ucapkan: 'Cranium', 'Femur', 'Tulang Paha', atau 'Sternum'"}
@@ -269,21 +258,21 @@ export function VoiceAssistantModal({
             </div>
 
             {/* Settings toggles bar */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-4 text-xs">
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-4 text-xs font-bold">
               {/* Language Selector */}
               <div
-                className={`flex items-center p-0.5 rounded-xl border ${
-                  isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"
+                className={`flex items-center p-1 rounded-xl border-2 border-black ${
+                  isDark ? "bg-slate-900 border-cyan-400 shadow-[2px_2px_0px_#06b6d4]" : "bg-white border-black shadow-[2px_2px_0px_#000]"
                 }`}
               >
                 <button
                   onClick={() => onSelectLanguage("id-ID")}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-semibold transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-black uppercase text-xs transition-all cursor-pointer ${
                     language === "id-ID"
                       ? isDark
-                        ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
-                        : "bg-sky-100 text-sky-800 border border-sky-300"
-                      : "text-slate-400 hover:text-slate-200"
+                        ? "bg-cyan-400 text-black font-anton tracking-wide"
+                        : "bg-yellow-300 text-black border border-black font-anton tracking-wide"
+                      : "text-slate-800 dark:text-slate-300 font-bold hover:text-black"
                   }`}
                 >
                   <span>🇮🇩</span>
@@ -291,12 +280,12 @@ export function VoiceAssistantModal({
                 </button>
                 <button
                   onClick={() => onSelectLanguage("en-US")}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-semibold transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-black uppercase text-xs transition-all cursor-pointer ${
                     language === "en-US"
                       ? isDark
-                        ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
-                        : "bg-sky-100 text-sky-800 border border-sky-300"
-                      : "text-slate-400 hover:text-slate-200"
+                        ? "bg-cyan-400 text-black font-anton tracking-wide"
+                        : "bg-yellow-300 text-black border border-black font-anton tracking-wide"
+                      : "text-slate-800 dark:text-slate-300 font-bold hover:text-black"
                   }`}
                 >
                   <span>🇬🇧</span>
@@ -307,26 +296,26 @@ export function VoiceAssistantModal({
               {/* TTS Voice Feedback Toggle */}
               <button
                 onClick={onToggleTtsFeedback}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border-2 font-anton uppercase tracking-wider text-xs transition-all neo-press cursor-pointer ${
                   enableTtsFeedback
                     ? isDark
-                      ? "bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
-                      : "bg-sky-50 text-sky-700 border-sky-200"
+                      ? "bg-cyan-400 text-black border-cyan-300 shadow-[2px_2px_0px_#06b6d4]"
+                      : "bg-emerald-300 text-black border-black shadow-[2px_2px_0px_#000]"
                     : isDark
-                    ? "bg-slate-900 border-slate-700 text-slate-400"
-                    : "bg-white border-slate-200 text-slate-500"
+                    ? "bg-slate-900 border-slate-700 text-slate-300"
+                    : "bg-white border-black text-slate-900 shadow-[2px_2px_0px_#000]"
                 }`}
                 title="Aktifkan/Nonaktifkan Suara Pelafalan Bahasa Latin"
               >
                 {enableTtsFeedback ? (
                   <>
-                    <Volume2 className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>Suara Pelafalan: Aktif</span>
+                    <Volume2 className="w-4 h-4 stroke-[2.5]" />
+                    <span>Pelafalan: Aktif</span>
                   </>
                 ) : (
                   <>
-                    <VolumeX className="w-3.5 h-3.5" />
-                    <span>Suara Pelafalan: Mati</span>
+                    <VolumeX className="w-4 h-4 stroke-[2.5]" />
+                    <span>Pelafalan: Mati</span>
                   </>
                 )}
               </button>
@@ -336,14 +325,11 @@ export function VoiceAssistantModal({
           {/* Quick Click-to-Test / Example Vocabulary Guide */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-400">
-                  Daftar Kata Suara yang Didukung (Klik untuk Menguji)
-                </h4>
-              </div>
-              <span className="text-[11px] text-slate-400">
-                Bisa diklik langsung
+              <h4 className="font-anton text-xs sm:text-sm uppercase tracking-wider text-black dark:text-cyan-300">
+                Daftar Perintah Suara (Klik untuk Menguji Langsung)
+              </h4>
+              <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                Bisa diklik
               </span>
             </div>
 
@@ -351,13 +337,13 @@ export function VoiceAssistantModal({
               {EXAMPLE_CATEGORIES.map((cat) => (
                 <div
                   key={cat.title}
-                  className={`p-3.5 rounded-2xl border ${
-                    isDark ? "bg-slate-800/30 border-slate-800" : "bg-slate-50/80 border-slate-200/80"
+                  className={`p-3.5 rounded-2xl border-2 shadow-[2px_2px_0px_#000000] dark:shadow-[2px_2px_0px_#06b6d4] ${
+                    isDark ? "bg-slate-800 border-cyan-400" : "bg-white border-black"
                   }`}
                 >
                   <div className="flex items-center gap-1.5 mb-2.5">
                     <span className="text-sm">{cat.icon}</span>
-                    <span className="text-xs font-bold text-slate-300 dark:text-slate-300">
+                    <span className="font-anton text-xs uppercase tracking-wide text-black dark:text-cyan-300">
                       {cat.title}
                     </span>
                   </div>
@@ -367,16 +353,16 @@ export function VoiceAssistantModal({
                       <button
                         key={item.command}
                         onClick={() => onTestCommand(item.command)}
-                        className={`group flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-medium transition-all active:scale-95 ${
+                        className={`group flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border-2 text-xs font-bold transition-all neo-press cursor-pointer ${
                           isDark
-                            ? "bg-slate-900/90 border-slate-700/80 text-slate-200 hover:border-cyan-500 hover:text-cyan-300 hover:bg-slate-800"
-                            : "bg-white border-slate-200 text-slate-700 hover:border-sky-400 hover:text-sky-700 hover:bg-sky-50"
+                            ? "bg-slate-900 border-cyan-400 text-slate-100 hover:bg-cyan-400 hover:text-black shadow-[1.5px_1.5px_0px_#06b6d4]"
+                            : "bg-yellow-50 border-black text-slate-950 hover:bg-yellow-200 shadow-[1.5px_1.5px_0px_#000000]"
                         }`}
                         title={`Uji suara "${item.command}"`}
                       >
-                        <Play className="w-2.5 h-2.5 text-cyan-500 opacity-60 group-hover:opacity-100" />
-                        <span className="font-semibold">{item.latin}</span>
-                        <span className="text-[11px] opacity-60">({item.common})</span>
+                        <Play className="w-2.5 h-2.5 text-black dark:text-cyan-300 fill-current opacity-80 group-hover:opacity-100" />
+                        <span className="font-black">{item.latin}</span>
+                        <span className="text-[10px] text-slate-800 dark:text-slate-300 font-bold">({item.common})</span>
                       </button>
                     ))}
                   </div>
@@ -388,27 +374,30 @@ export function VoiceAssistantModal({
 
         {/* Modal Footer */}
         <div
-          className={`flex items-center justify-between px-5 py-3 border-t text-xs ${
-            isDark ? "border-slate-800 bg-slate-900/80 text-slate-400" : "border-slate-100 bg-slate-50 text-slate-500"
+          className={`flex items-center justify-between px-5 py-3.5 border-t-2 border-inherit text-xs font-bold ${
+            isDark ? "bg-slate-800 text-slate-300" : "bg-yellow-100 text-slate-900"
           }`}
         >
-          <div className="flex items-center gap-1.5">
-            <HelpCircle className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Siswa dapat menyebutkan nama Indonesia maupun Latin.</span>
+          <div className="flex items-center gap-1.5 font-bold">
+            <HelpCircle className="w-4 h-4 text-amber-600 stroke-[2.5]" />
+            <span>Sebutkan nama Indonesia atau Latin.</span>
           </div>
 
           <button
             onClick={onClose}
-            className={`px-4 py-1.5 rounded-xl font-bold transition-all ${
+            className={`px-4 py-2 rounded-xl font-anton uppercase tracking-wider text-xs border-2 border-black transition-all neo-press cursor-pointer ${
               isDark
-                ? "bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30"
-                : "bg-sky-600 hover:bg-sky-700 text-white"
+                ? "bg-cyan-400 text-black border-cyan-200 shadow-[2px_2px_0px_#06b6d4]"
+                : "bg-yellow-400 text-black shadow-[2px_2px_0px_#000]"
             }`}
           >
             Selesai
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
+      )}
+    </AnimatePresence>
   );
 }
+

@@ -88,10 +88,10 @@ export function MobileBottomSheet({ bone, onClose, isDark }: MobileBottomSheetPr
         exit={{ y: "100%", opacity: 0 }}
         transition={{ type: "spring", damping: 25, stiffness: 280 }}
         id="mobile-bone-bottom-sheet"
-        className={`fixed bottom-0 inset-x-0 z-40 transition-all duration-300 lg:hidden rounded-t-3xl border-t shadow-2xl flex flex-col overflow-hidden ${getHeightClass()} ${
+        className={`fixed bottom-0 inset-x-0 z-40 transition-all duration-300 lg:hidden rounded-t-2xl border-t-3 border-x-2 border-black flex flex-col overflow-hidden shadow-[0_-4px_0_0_#000000] dark:border-cyan-400 dark:shadow-[0_-4px_0_0_#06b6d4] ${getHeightClass()} ${
           isDark
-            ? "bg-slate-900/95 border-slate-700/80 text-slate-100 backdrop-blur-xl"
-            : "bg-white/95 border-slate-300 text-slate-900 backdrop-blur-xl"
+            ? "bg-slate-900 text-slate-100"
+            : "bg-amber-50 text-slate-900"
         }`}
       >
         {/* Top Drag Handle Bar (Touch Sensitive) */}
@@ -100,47 +100,47 @@ export function MobileBottomSheet({ bone, onClose, isDark }: MobileBottomSheetPr
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           onClick={toggleState}
-          className="w-full pt-2.5 pb-2 px-4 flex flex-col items-center justify-center cursor-pointer select-none border-b border-inherit/20 shrink-0"
+          className="w-full pt-2 pb-2 px-3.5 flex flex-col items-center justify-center cursor-pointer select-none border-b-2 border-inherit shrink-0 bg-yellow-300 dark:bg-slate-800 text-black dark:text-white"
         >
-          <div className="w-12 h-1.5 rounded-full bg-slate-400/50 mb-1" />
+          <div className="w-12 h-1.5 rounded-full bg-black dark:bg-cyan-400 mb-1" />
 
           {/* Peek Bar Content (always visible) */}
           <div className="w-full flex items-center justify-between gap-2 mt-0.5">
             <div className="flex items-center gap-2 min-w-0">
               <span
-                className="w-2.5 h-2.5 rounded-full shrink-0"
+                className="w-3 h-3 rounded-md border border-black shrink-0"
                 style={{ backgroundColor: groupMeta?.colorHex || "#0284c7" }}
               />
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <h3 className="text-sm font-bold truncate leading-tight">
+                  <h3 className="font-anton text-xs sm:text-sm uppercase tracking-wide truncate leading-tight text-black dark:text-white">
                     {bone.commonName}
                   </h3>
-                  <span className="text-[11px] font-serif italic text-amber-500 dark:text-amber-400 truncate">
+                  <span className="text-[11px] font-serif italic text-black dark:text-cyan-300 truncate font-bold">
                     ({bone.latinName})
                   </span>
                 </div>
-                <span className="text-[10px] text-slate-400 block truncate">
+                <span className="text-[10px] font-bold text-slate-800 dark:text-slate-300 block truncate">
                   {groupMeta?.name} • Rangka {bone.division === "axial" ? "Aksial" : "Apendikular"}
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-1 shrink-0">
+            <div className="flex items-center gap-1.5 shrink-0">
               {/* Voice button */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   speakText(`${bone.latinName}. ${bone.commonName}. ${bone.summary}`, "id-ID");
                 }}
-                className={`p-1.5 rounded-lg border text-xs transition-all ${
+                className={`p-1.5 rounded-lg border-2 font-bold neo-press cursor-pointer ${
                   isDark
-                    ? "border-slate-700 bg-slate-800/80 text-amber-400"
-                    : "border-slate-200 bg-slate-100 text-amber-800"
+                    ? "border-cyan-400 bg-slate-700 text-amber-400 shadow-[1.5px_1.5px_0px_#06b6d4]"
+                    : "border-black bg-white text-black shadow-[1.5px_1.5px_0px_#000000]"
                 }`}
                 title="Dengarkan Pengertian Tulang"
               >
-                <Volume2 className="w-3.5 h-3.5" />
+                <Volume2 className="w-3.5 h-3.5 stroke-[2.5]" />
               </button>
 
               {/* Sheet Toggle Button */}
@@ -149,22 +149,22 @@ export function MobileBottomSheet({ bone, onClose, isDark }: MobileBottomSheetPr
                   e.stopPropagation();
                   toggleState();
                 }}
-                className={`p-1.5 rounded-lg border text-xs flex items-center gap-1 font-medium transition-all ${
+                className={`p-1.5 rounded-lg border-2 text-xs flex items-center gap-1 font-black uppercase neo-press cursor-pointer ${
                   isDark
-                    ? "border-slate-700 bg-slate-800/80 text-slate-300"
-                    : "border-slate-200 bg-slate-100 text-slate-700"
+                    ? "border-cyan-400 bg-cyan-400 text-slate-950 shadow-[1.5px_1.5px_0px_#06b6d4]"
+                    : "border-black bg-white text-black shadow-[1.5px_1.5px_0px_#000000]"
                 }`}
                 title={sheetState === "full" ? "Perkecil Panel" : "Perbesar Panel"}
               >
                 {sheetState === "full" ? (
                   <>
-                    <Minimize2 className="w-3.5 h-3.5" />
-                    <span className="text-[10px] hidden sm:inline">Perkecil</span>
+                    <Minimize2 className="w-3.5 h-3.5 stroke-[2.5]" />
+                    <span className="text-[10px] hidden sm:inline">Kecil</span>
                   </>
                 ) : (
                   <>
-                    <Maximize2 className="w-3.5 h-3.5" />
-                    <span className="text-[10px] hidden sm:inline">Pengertian & Detail</span>
+                    <Maximize2 className="w-3.5 h-3.5 stroke-[2.5]" />
+                    <span className="text-[10px] hidden sm:inline">Materi</span>
                   </>
                 )}
               </button>
@@ -175,14 +175,14 @@ export function MobileBottomSheet({ bone, onClose, isDark }: MobileBottomSheetPr
                   e.stopPropagation();
                   onClose();
                 }}
-                className={`p-1.5 rounded-lg border transition-all ${
+                className={`p-1.5 rounded-lg border-2 font-bold neo-press cursor-pointer ${
                   isDark
-                    ? "border-slate-700 bg-slate-800/80 text-slate-400 hover:text-white"
-                    : "border-slate-200 bg-slate-100 text-slate-600 hover:text-slate-900"
+                    ? "border-cyan-400 bg-slate-700 text-slate-100 shadow-[1.5px_1.5px_0px_#06b6d4]"
+                    : "border-black bg-white text-black shadow-[1.5px_1.5px_0px_#000000]"
                 }`}
                 aria-label="Tutup Panel"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
           </div>

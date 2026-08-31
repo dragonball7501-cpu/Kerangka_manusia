@@ -1,20 +1,35 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+  
+  .font-anton {
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 0.04em;
+  }
+}
+
 @layer utilities {
-  /* Custom smooth scrollbar for sidebar & info panel */
+  /* Custom neo-brutalist scrollbar */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(148, 163, 184, 0.25);
-    border-radius: 9999px;
+    background: #000000;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
   }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(148, 163, 184, 0.45);
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #38bdf8;
+    border: 1px solid #000000;
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -24,12 +39,74 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Neo Brutalism Dot Grid Background */
+  .bg-neo-grid-light {
+    background-color: #faf8f5;
+    background-image: radial-gradient(#000000 1.2px, transparent 1.2px);
+    background-size: 20px 20px;
+  }
+  .bg-neo-grid-dark {
+    background-color: #0c1220;
+    background-image: radial-gradient(#38bdf8 1.2px, transparent 1.2px);
+    background-size: 20px 20px;
+  }
+
+  /* Neo Brutalism Hard Shadow Utilities */
+  .neo-shadow-xs {
+    box-shadow: 2px 2px 0px 0px #000000;
+  }
+  .neo-shadow-sm {
+    box-shadow: 3px 3px 0px 0px #000000;
+  }
+  .neo-shadow {
+    box-shadow: 4px 4px 0px 0px #000000;
+  }
+  .neo-shadow-lg {
+    box-shadow: 6px 6px 0px 0px #000000;
+  }
+  .neo-shadow-xl {
+    box-shadow: 8px 8px 0px 0px #000000;
+  }
+
+  /* Dark mode cyan/yellow accent hard shadows */
+  .dark .neo-shadow-xs {
+    box-shadow: 2px 2px 0px 0px #06b6d4;
+  }
+  .dark .neo-shadow-sm {
+    box-shadow: 3px 3px 0px 0px #06b6d4;
+  }
+  .dark .neo-shadow {
+    box-shadow: 4px 4px 0px 0px #06b6d4;
+  }
+  .dark .neo-shadow-lg {
+    box-shadow: 6px 6px 0px 0px #06b6d4;
+  }
+  .dark .neo-shadow-xl {
+    box-shadow: 8px 8px 0px 0px #06b6d4;
+  }
+
+  /* Interactive tactile button states */
+  .neo-press {
+    transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .neo-press:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px 0px #000000;
+  }
+  .dark .neo-press:hover {
+    box-shadow: 5px 5px 0px 0px #06b6d4;
+  }
+  .neo-press:active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 0px 0px 0px 0px #000000 !important;
+  }
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -37,6 +114,41 @@
   }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes scalePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
+
+@keyframes slideDrawerLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scalePop {
+  animation: scalePop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slideDrawerLeft {
+  animation: slideDrawerLeft 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Global tactile feel */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
