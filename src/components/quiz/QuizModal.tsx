@@ -20,7 +20,7 @@ import {
   Play,
 } from "lucide-react";
 import { QuizQuestion, QuizState } from "../../types/quiz";
-import { QUIZ_QUESTIONS, calculateRankTier } from "../../data/quizQuestions";
+import { QUIZ_QUESTIONS, calculateRankTier, prepareRandomizedQuiz } from "../../data/quizQuestions";
 import {
   saveLeaderboardScore,
   getStoredStudentProfile,
@@ -144,11 +144,10 @@ export function QuizModal({
       grade: cleanGrade,
     });
 
-    // Shuffle and pick questions
-    const shuffled = [...QUIZ_QUESTIONS].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, count);
+    // Shuffle both question order AND choice options (A, B, C, D) dynamically
+    const randomizedQuestions = prepareRandomizedQuiz(QUIZ_QUESTIONS, count);
 
-    setActiveQuestions(selected);
+    setActiveQuestions(randomizedQuestions);
     setCurrentIndex(0);
     setScore(0);
     setStreak(0);

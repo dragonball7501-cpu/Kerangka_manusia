@@ -381,3 +381,39 @@ export function calculateRankTier(score: number, accuracyPercent: number): RankT
   return "Pembelajar Anatomi 📚";
 }
 
+/**
+ * Prepares a random selection of questions where both the question order
+ * AND the 4 options (A, B, C, D) of each question are thoroughly shuffled.
+ * The correctIndex is dynamically re-calculated to ensure truly random answer keys.
+ */
+export function prepareRandomizedQuiz(questions: QuizQuestion[], count: number): QuizQuestion[] {
+  // 1. Fisher-Yates shuffle the question list
+  const questionPool = [...questions];
+  for (let i = questionPool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questionPool[i], questionPool[j]] = [questionPool[j], questionPool[i]];
+  }
+
+  const selected = questionPool.slice(0, Math.min(count, questionPool.length));
+
+  // 2. For each question, shuffle its options and track the new correct index
+  return selected.map((q) => {
+    const correctOptionText = q.options[q.correctIndex];
+    const shuffledOptions = [...q.options];
+
+    // Fisher-Yates shuffle on options
+    for (let i = shuffledOptions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+    }
+
+    const newCorrectIndex = shuffledOptions.indexOf(correctOptionText);
+
+    return {
+      ...q,
+      options: shuffledOptions,
+      correctIndex: newCorrectIndex >= 0 ? newCorrectIndex : 0,
+    };
+  });
+}
+
