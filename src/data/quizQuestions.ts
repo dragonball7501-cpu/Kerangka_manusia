@@ -3,21 +3,6 @@ import { QuizQuestion, RankTier } from "../types/quiz";
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: "q1",
-    question: "Manakah tulang terpanjang dan terkuat pada tubuh manusia?",
-    options: [
-      "Os Humerus (Tulang Lengan Atas)",
-      "Os Femur (Tulang Paha)",
-      "Os Tibia (Tulang Kering)",
-      "Os Radius (Tulang Pengumpil)"
-    ],
-    correctIndex: 1,
-    explanation: "Os Femur (tulang paha) adalah tulang terpanjang, terberat, dan terkuat pada tubuh manusia yang menopang sebagian besar bobot tubuh saat berdiri dan berjalan.",
-    category: "Rangka Apendikular",
-    difficulty: "Mudah",
-    relatedBoneId: "femur-r"
-  },
-  {
-    id: "q2",
     question: "Berapakah jumlah total tulang yang menyusun tubuh manusia dewasa normal?",
     options: [
       "180 tulang",
@@ -26,284 +11,373 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       "300 tulang"
     ],
     correctIndex: 1,
-    explanation: "Tubuh manusia dewasa memiliki sekitar 206 tulang setelah beberapa tulang yang terpisah saat bayi mengalami fusi/penyatuan seiring bertambahnya usia.",
+    explanation: "Tubuh manusia dewasa normal tersusun atas 206 tulang yang saling terhubung membentuk rangka pelindung dan penopang tubuh.",
     category: "Rangka Aksial",
     difficulty: "Mudah"
   },
   {
+    id: "q2",
+    question: "Manakah tulang terpanjang dan terkuat pada tubuh manusia?",
+    options: [
+      "Os Humerus (Tulang Lengan Atas)",
+      "Os Femur (Tulang Paha)",
+      "Os Tibia (Tulang Kering)",
+      "Os Radius (Tulang Pengumpil)"
+    ],
+    correctIndex: 1,
+    explanation: "Os Femur (tulang paha) adalah tulang terpanjang, terberat, dan terkuat di tubuh manusia yang menopang berat badan saat berdiri dan berjalan.",
+    category: "Rangka Apendikular",
+    difficulty: "Mudah",
+    relatedBoneId: "femur-r"
+  },
+  {
     id: "q3",
-    question: "Tulang pipih di bagian tengah dada yang berfungsi melindungi jantung dan tempat melekatnya tulang rusuk sejati adalah...",
+    question: "Tulang tengkorak yang berfungsi membungkus dan melindungi jaringan otak adalah...",
+    options: [
+      "Tempurung Kepala (Cranium)",
+      "Tulang Belikat (Scapula)",
+      "Tulang Selangka (Clavicula)",
+      "Tulang Panggul (Pelvis)"
+    ],
+    correctIndex: 0,
+    explanation: "Cranium (tempurung kepala) tersusun atas 8 tulang kranial yang membentuk kubah kokoh untuk melindungi otak dari cedera dan trauma fisik.",
+    category: "Tengkorak & Wajah",
+    difficulty: "Mudah",
+    relatedBoneId: "cranium"
+  },
+  {
+    id: "q4",
+    question: "Satu-satunya tulang tengkorak yang dapat digerakkan secara bebas untuk mengunyah dan berbicara adalah...",
+    options: [
+      "Os Maxilla (Rahang Atas)",
+      "Os Mandibula (Rahang Bawah)",
+      "Os Nasale (Tulang Hidung)",
+      "Os Frontale (Tulang Dahi)"
+    ],
+    correctIndex: 1,
+    explanation: "Os Mandibula (rahang bawah) dihubungkan oleh sendi temporomandibular (TMJ) sehingga dapat digerakkan naik-turun dan maju-mundur saat mengunyah dan bicara.",
+    category: "Tengkorak & Wajah",
+    difficulty: "Mudah",
+    relatedBoneId: "mandible"
+  },
+  {
+    id: "q5",
+    question: "Tulang pipih di bagian tengah dada yang melindungi jantung dan tempat melekatnya tulang rusuk sejati adalah...",
     options: [
       "Os Clavicula",
-      "Os Sternum",
+      "Os Sternum (Tulang Dada)",
       "Os Scapula",
       "Os Vertebrae"
     ],
     correctIndex: 1,
-    explanation: "Os Sternum (tulang dada) berbentuk seperti dasi pendek di garis tengah dada, terdiri dari Manubrium, Korpus, dan Prosessus Xiphoideus.",
+    explanation: "Os Sternum (tulang dada) berada di garis tengah dada, berbentuk menyerupai dasi pendek yang melindungi organ vital jantung dan paru-paru.",
     category: "Rangka Aksial",
     difficulty: "Mudah",
     relatedBoneId: "sternum"
   },
   {
-    id: "q4",
-    question: "Ruas tulang belakang bagian leher pada manusia berjumlah...",
+    id: "q6",
+    question: "Ruas tulang belakang bagian leher (Vertebrae Cervicales) pada manusia berjumlah...",
     options: [
-      "5 ruas (Vertebrae Lumbales)",
-      "7 ruas (Vertebrae Cervicales)",
-      "12 ruas (Vertebrae Thoracicae)",
-      "4 ruas (Vertebrae Coccygis)"
+      "5 ruas",
+      "7 ruas",
+      "12 ruas",
+      "4 ruas"
     ],
     correctIndex: 1,
-    explanation: "Ruas leher (Vertebrae Cervicales) berjumlah 7 ruas (C1-C7). Ruas pertama disebut Atlas dan ruas kedua disebut Axis yang memungkinkan rotasi kepala.",
+    explanation: "Ruas leher (Vertebrae Cervicales) berjumlah 7 ruas (C1-C7). Ruas pertama disebut Atlas dan ruas kedua disebut Axis yang memungkinkan kepala menggeleng.",
     category: "Rangka Aksial",
     difficulty: "Mudah",
     relatedBoneId: "vertebra-cervical"
   },
   {
-    id: "q5",
-    question: "Sendi peluru (Ball and Socket Joint) yang memungkinkan gerakan ke segala arah dapat ditemukan pada...",
-    options: [
-      "Sendi siku (Humerus dan Ulna)",
-      "Sendi lutut (Femur dan Tibia)",
-      "Sendi panggul (Femur dan Pelvis) serta sendi bahu (Humerus dan Scapula)",
-      "Sendi antartulang tengkorak (Sutura)"
-    ],
-    correctIndex: 2,
-    explanation: "Sendi peluru memiliki ujung berbentuk bulat yang masuk ke dalam mangkok sendi, terdapat pada artikulasio humeri (gelang bahu) dan artikulasio coxae (gelang panggul).",
-    category: "Persendian & Gerak",
-    difficulty: "Sedang",
-    relatedBoneId: "femur-r"
-  },
-  {
-    id: "q6",
-    question: "Tulang dahi pada tengkorak kepala manusia disebut dengan nama latin...",
-    options: [
-      "Os Occipitale",
-      "Os Frontale",
-      "Os Parietale",
-      "Os Temporale"
-    ],
-    correctIndex: 1,
-    explanation: "Os Frontale membentuk dahi dan bagian atas rongga mata (orbita), melindungi lobus frontal otak besar.",
-    category: "Tengkorak & Wajah",
-    difficulty: "Mudah",
-    relatedBoneId: "cranium-frontal"
-  },
-  {
     id: "q7",
-    question: "Penyakit penurunan massa dan kepadatan tulang yang menyebabkan tulang menjadi rapuh dan mudah patah disebut...",
-    options: [
-      "Skoliosis",
-      "Osteoporosis",
-      "Lordosis",
-      "Rakitis"
-    ],
-    correctIndex: 1,
-    explanation: "Osteoporosis ditandai dengan berkurangnya matriks tulang dan kalsium, umumnya dipengaruhi oleh faktor penuaan, hormon estrogen, dan defisiensi kalsium/vitamin D.",
-    category: "Kelainan & Kesehatan Tulang",
-    difficulty: "Mudah"
-  },
-  {
-    id: "q8",
-    question: "Tulang pengumpil (Radius) pada lengan bawah terletak sejajar dengan...",
-    options: [
-      "Jari kelingking",
-      "Ibu jari (Jempol)",
-      "Jari tengah",
-      "Jari manis"
-    ],
-    correctIndex: 1,
-    explanation: "Pada posisi anatomi, Os Radius (tulang pengumpil) berada di sisi lateral sejajar dengan ibu jari, sedangkan Os Ulna (tulang hasta) berada di sisi medial sejajar kelingking.",
-    category: "Rangka Apendikular",
-    difficulty: "Sedang",
-    relatedBoneId: "radius-r"
-  },
-  {
-    id: "q9",
-    question: "Berapa pasang tulang rusuk melayang (Costa fluctuantes) pada tubuh manusia?",
-    options: [
-      "7 pasang",
-      "3 pasang",
-      "2 pasang",
-      "12 pasang"
-    ],
-    correctIndex: 2,
-    explanation: "Manusia memiliki 12 pasang rusuk: 7 pasang rusuk sejati (costa vera), 3 pasang rusuk palsu (costa spuria), dan 2 pasang rusuk melayang (costa fluctuantes, pasang ke-11 & 12).",
-    category: "Rangka Aksial",
-    difficulty: "Sedang",
-    relatedBoneId: "ribs-cage"
-  },
-  {
-    id: "q10",
-    question: "Kelainan tulang belakang yang melengkung secara abnormal ke arah samping membentuk huruf 'S' atau 'C' disebut...",
-    options: [
-      "Kifosis",
-      "Lordosis",
-      "Skoliosis",
-      "Fraktura"
-    ],
-    correctIndex: 2,
-    explanation: "Skoliosis adalah pembengkokan tulang punggung ke arah samping lateral yang sering disebabkan oleh posisi duduk salah yang berkepanjangan atau kelainan bawaan.",
-    category: "Kelainan & Kesehatan Tulang",
-    difficulty: "Mudah"
-  },
-  {
-    id: "q11",
-    question: "Tulang telapak tangan dalam terminologi anatomi disebut...",
-    options: [
-      "Ossa Carpalia",
-      "Ossa Metacarpalia",
-      "Ossa Phalanges",
-      "Ossa Tarsalia"
-    ],
-    correctIndex: 1,
-    explanation: "Telapak tangan tersusun atas 5 Ossa Metacarpalia, sedangkan pergelangan tangan tersusun atas 8 Ossa Carpalia.",
-    category: "Rangka Apendikular",
-    difficulty: "Sedang",
-    relatedBoneId: "metacarpals-r"
-  },
-  {
-    id: "q12",
-    question: "Satu-satunya tulang pada tengkorak kepala yang dapat bergerak bebas adalah...",
-    options: [
-      "Os Maxilla (Rahang Atas)",
-      "Os Mandibula (Rahang Bawah)",
-      "Os Zygomaticum (Tulang Pipi)",
-      "Os Nasale (Tulang Hidung)"
-    ],
-    correctIndex: 1,
-    explanation: "Os Mandibula (rahang bawah) dihubungkan oleh sendi temporomandibular (TMJ) sehingga dapat bergerak untuk mengunyah, menelan, dan berbicara.",
-    category: "Tengkorak & Wajah",
-    difficulty: "Mudah",
-    relatedBoneId: "cranium-mandible"
-  },
-  {
-    id: "q13",
-    question: "Tulang tempurung lutut yang bertipe tulang sesamoid terbesar pada tubuh adalah...",
+    question: "Tulang tempurung lutut yang berfungsi melindungi persendian lutut disebut...",
     options: [
       "Os Patella",
       "Os Fibula",
       "Os Calcaneus",
-      "Os Talus"
+      "Os Radius"
     ],
     correctIndex: 0,
-    explanation: "Os Patella (tempurung lutut) adalah tulang sesamoid yang berkembang di dalam tendon otot quadriceps femoris untuk melindungi sendi lutut dan meningkatkan efisiensi tarikan otot.",
+    explanation: "Os Patella (tempurung lutut) adalah tulang berbentuk segitiga pipih (sesamoid) yang melindungi sendi lutut dan memperkuat daya ungkit otot paha.",
     category: "Rangka Apendikular",
     difficulty: "Mudah",
     relatedBoneId: "patella-r"
   },
   {
-    id: "q14",
-    question: "Tulang selangka (Clavicula) dan tulang belikat (Scapula) bersama-sama membentuk gelang...",
+    id: "q8",
+    question: "Tulang pada lengan bawah yang posisinya sejajar dengan ibu jari (jempol) tangan adalah...",
     options: [
-      "Gelang panggul (Pelvic Girdle)",
-      "Gelang bahu (Pectoral Girdle)",
-      "Rangka aksial",
-      "Sangkar dada (Thoracic Cage)"
+      "Os Radius (Tulang Pengumpil)",
+      "Os Ulna (Tulang Hasta)",
+      "Os Humerus (Tulang Lengan Atas)",
+      "Os Femur (Tulang Paha)"
     ],
-    correctIndex: 1,
-    explanation: "Gelang bahu (Pectoral Girdle) tersusun atas sepasang tulang selangka (Clavicula) dan sepasang tulang belikat (Scapula) yang menghubungkan lengan atas dengan rangka aksial.",
+    correctIndex: 0,
+    explanation: "Os Radius (tulang pengumpil) berada di sisi luar lengan bawah dan sejajar lurus dengan ibu jari (jempol).",
     category: "Rangka Apendikular",
-    difficulty: "Sedang",
-    relatedBoneId: "clavicle-r"
+    difficulty: "Mudah",
+    relatedBoneId: "radius-r"
   },
   {
-    id: "q15",
-    question: "Tulang tumit yang merupakan tulang terbesar di area pergelangan kaki disebut...",
+    id: "q9",
+    question: "Tulang pada lengan bawah yang posisinya sejajar dengan jari kelingking adalah...",
     options: [
-      "Os Talus",
-      "Os Naviculare",
-      "Os Calcaneus",
-      "Os Cuboideum"
+      "Os Radius (Tulang Pengumpil)",
+      "Os Ulna (Tulang Hasta)",
+      "Os Clavicula (Tulang Selangka)",
+      "Os Scapula (Tulang Belikat)"
     ],
-    correctIndex: 2,
-    explanation: "Os Calcaneus (tulang tumit) adalah tulang tarsal terbesar yang menerima beban berat tubuh saat menginjak dan tempat melekatnya tendo Achilles.",
+    correctIndex: 1,
+    explanation: "Os Ulna (tulang hasta) berada di sisi dalam lengan bawah sejajar dengan jari kelingking.",
     category: "Rangka Apendikular",
-    difficulty: "Tantangan",
-    relatedBoneId: "tarsals-r"
-  },
-  {
-    id: "q16",
-    question: "Tipe hubungan antartulang tengkorak (sutura) yang tidak memungkinkan adanya gerakan sama sekali diklasifikasikan sebagai sendi...",
-    options: [
-      "Diartrosis (Sendi Gerak)",
-      "Amfiartrosis (Sendi Kaku)",
-      "Sinartrosis (Sendi Mati)",
-      "Sinovial"
-    ],
-    correctIndex: 2,
-    explanation: "Sinartrosis adalah persendian yang dihubungkan oleh jaringan ikat fibrosa kuat sehingga tidak memungkinkan gerakan, seperti sutura pada tulang-tulang tengkorak.",
-    category: "Persendian & Gerak",
-    difficulty: "Sedang"
-  },
-  {
-    id: "q17",
-    question: "Sumsum tulang merah (Red Bone Marrow) yang terdapat di dalam tulang spons berfungsi utama untuk...",
-    options: [
-      "Menyimpan lemak cadangan",
-      "Hematopoiesis (Pembentukan sel-sel darah)",
-      "Menghasilkan hormon insulin",
-      "Menyerap glukosa darah"
-    ],
-    correctIndex: 1,
-    explanation: "Hematopoiesis adalah proses pembentukan sel darah merah (eritrosit), sel darah putih (leukosit), dan keping darah (trombosit) di dalam sumsum tulang merah.",
-    category: "Kelainan & Kesehatan Tulang",
-    difficulty: "Sedang"
-  },
-  {
-    id: "q18",
-    question: "Sendi engsel (Hinge Joint) yang memungkinkan gerakan 1 arah (fleksi dan ekstensi) contohnya terdapat pada...",
-    options: [
-      "Sendi ibu jari tangan (pelana)",
-      "Sendi siku dan sendi lutut",
-      "Sendi atlas-axis leher (putar)",
-      "Sendi pergelangan tangan (luncur)"
-    ],
-    correctIndex: 1,
-    explanation: "Sendi siku (artikulasio cubiti) dan sendi lutut (artikulasio genus) bekerja seperti engsel pintu yang memungkinkan gerakan menekuk (fleksi) dan meluruskan (ekstensi).",
-    category: "Persendian & Gerak",
     difficulty: "Mudah",
     relatedBoneId: "ulna-r"
   },
   {
-    id: "q19",
-    question: "Tulang betis yang berada di sisi lateral tungkai bawah dan berukuran lebih ramping dari tulang kering disebut...",
+    id: "q10",
+    question: "Tulang tungkai bawah yang berukuran lebih besar dan berfungsi sebagai penopang beban utama (tulang kering) adalah...",
+    options: [
+      "Os Tibia (Tulang Kering)",
+      "Os Fibula (Tulang Betis)",
+      "Os Patella (Tempurung Lutut)",
+      "Os Ulna (Tulang Hasta)"
+    ],
+    correctIndex: 0,
+    explanation: "Os Tibia (tulang kering) adalah tulang besar di tungkai bawah bagian dalam yang menopang sebagian besar beban tubuh dari paha ke kaki.",
+    category: "Rangka Apendikular",
+    difficulty: "Mudah",
+    relatedBoneId: "tibia-r"
+  },
+  {
+    id: "q11",
+    question: "Tulang tungkai bawah yang lebih ramping dan terletak di sebelah luar tulang kering (tulang betis) adalah...",
     options: [
       "Os Tibia",
-      "Os Fibula",
+      "Os Fibula (Tulang Betis)",
       "Os Femur",
-      "Os Patella"
+      "Os Humerus"
     ],
     correctIndex: 1,
-    explanation: "Os Fibula (tulang betis) berada di lateral tungkai bawah, berfungsi sebagai tempat perlekatan otot dan penstabil sendi pergelangan kaki.",
+    explanation: "Os Fibula (tulang betis) berukuran lebih ramping di sisi luar tungkai bawah, berfungsi sebagai tempat melekatnya otot betis dan penstabil pergelangan kaki.",
     category: "Rangka Apendikular",
     difficulty: "Mudah",
     relatedBoneId: "fibula-r"
   },
   {
-    id: "q20",
-    question: "Tulang pembentuk dasar dan bagian belakang tengkorak yang memiliki lubang besar (Foramen Magnum) adalah...",
+    id: "q12",
+    question: "Tulang selangka (Clavicula) dan tulang belikat (Scapula) bersama-sama membentuk...",
     options: [
-      "Os Frontale",
-      "Os Occipitale",
-      "Os Parietale",
-      "Os Sphenoidale"
+      "Gelang Bahu (Pectoral Girdle)",
+      "Gelang Panggul (Pelvic Girdle)",
+      "Sangkar Dada (Thorax)",
+      "Ruas Tulang Belakang"
+    ],
+    correctIndex: 0,
+    explanation: "Gelang Bahu (Pectoral Girdle) tersusun dari sepasang tulang selangka dan sepasang tulang belikat yang menghubungkan lengan atas ke rangka tubuh.",
+    category: "Rangka Apendikular",
+    difficulty: "Mudah",
+    relatedBoneId: "clavicle-r"
+  },
+  {
+    id: "q13",
+    question: "Berapa pasang jumlah tulang rusuk sejati (Costa Vera) yang menempel langsung ke tulang dada?",
+    options: [
+      "5 pasang",
+      "7 pasang",
+      "10 pasang",
+      "12 pasang"
     ],
     correctIndex: 1,
-    explanation: "Os Occipitale berada di belakang kepala. Foramen Magnum pada tulang ini merupakan lubang tempat lewatnya medula oblongata menghubungkan otak dengan medula spinalis.",
+    explanation: "Manusia memiliki 7 pasang tulang rusuk sejati (pasang ke-1 sampai 7) yang tulang rawannya menempel langsung ke tulang dada (sternum).",
+    category: "Rangka Aksial",
+    difficulty: "Mudah",
+    relatedBoneId: "ribs-true"
+  },
+  {
+    id: "q14",
+    question: "Berapa pasang jumlah tulang rusuk melayang (Costa Fluctuantes) yang ujung depannya tidak menempel pada tulang dada?",
+    options: [
+      "1 pasang",
+      "2 pasang",
+      "3 pasang",
+      "4 pasang"
+    ],
+    correctIndex: 1,
+    explanation: "Tulang rusuk melayang berjumlah 2 pasang (pasang ke-11 dan 12) yang ujung depannya bebas dan tidak menempel ke sternum maupun rusuk lainnya.",
+    category: "Rangka Aksial",
+    difficulty: "Mudah",
+    relatedBoneId: "ribs-floating"
+  },
+  {
+    id: "q15",
+    question: "Sendi pada siku dan lutut yang bekerja membuka dan menutup satu arah seperti engsel pintu disebut...",
+    options: [
+      "Sendi Peluru",
+      "Sendi Engsel",
+      "Sendi Putar",
+      "Sendi Pelana"
+    ],
+    correctIndex: 1,
+    explanation: "Sendi engsel memungkinkan gerakan satu arah (menekuk dan meluruskan), contohnya pada sendi siku dan sendi lutut.",
+    category: "Persendian & Gerak",
+    difficulty: "Mudah"
+  },
+  {
+    id: "q16",
+    question: "Sendi yang memungkinkan gerakan bebas ke segala arah (terdapat pada bahu dan panggul) disebut...",
+    options: [
+      "Sendi Peluru (Ball and Socket)",
+      "Sendi Engsel",
+      "Sendi Geser",
+      "Sendi Kaku"
+    ],
+    correctIndex: 0,
+    explanation: "Sendi peluru menghubungkan ujung tulang membulat ke mangkok sendi, menghasilkan ruang gerak paling leluasa ke segala arah (seperti sendi paha-panggul dan bahu-lengan).",
+    category: "Persendian & Gerak",
+    difficulty: "Mudah"
+  },
+  {
+    id: "q17",
+    question: "Tulang lengan atas yang memanjang dari bahu sampai siku disebut...",
+    options: [
+      "Os Humerus",
+      "Os Femur",
+      "Os Radius",
+      "Os Ulna"
+    ],
+    correctIndex: 0,
+    explanation: "Os Humerus adalah tulang tunggal yang membentuk lengan bagian atas, bersendi di atas dengan skapula dan di bawah dengan radius serta ulna.",
+    category: "Rangka Apendikular",
+    difficulty: "Mudah",
+    relatedBoneId: "humerus-r"
+  },
+  {
+    id: "q18",
+    question: "Tulang tumit yang merupakan tulang terbesar di pergelangan kaki manusia adalah...",
+    options: [
+      "Os Calcaneus",
+      "Os Talus",
+      "Os Naviculare",
+      "Os Cuboid"
+    ],
+    correctIndex: 0,
+    explanation: "Os Calcaneus (tulang tumit) adalah tulang pergelangan kaki terbesar yang menopang tumpuan kaki saat berjalan dan tempat melekatnya tendon Achilles.",
+    category: "Rangka Apendikular",
+    difficulty: "Mudah",
+    relatedBoneId: "tarsals-r"
+  },
+  {
+    id: "q19",
+    question: "Kelainan tulang belakang yang melengkung ke arah samping sehingga punggung tampak miring membentuk huruf S disebut...",
+    options: [
+      "Lordosis",
+      "Kifosis",
+      "Skoliosis",
+      "Osteoporosis"
+    ],
+    correctIndex: 2,
+    explanation: "Skoliosis adalah pembengkokan abnormal tulang belakang ke arah samping lateral, sering diakibatkan oleh kebiasaan posisi duduk miring yang berkepanjangan.",
+    category: "Kelainan & Kesehatan Tulang",
+    difficulty: "Mudah"
+  },
+  {
+    id: "q20",
+    question: "Kelainan tulang yang ditandai dengan penurunan kepadatan kalsium sehingga tulang menjadi keropos dan rapuh disebut...",
+    options: [
+      "Osteoporosis",
+      "Rakitis",
+      "Artritis",
+      "Fraktura"
+    ],
+    correctIndex: 0,
+    explanation: "Osteoporosis terjadi ketika massa dan kepadatan tulang menurun drastis sehingga struktur tulang keropos dan mudah mengalami patah tulang.",
+    category: "Kelainan & Kesehatan Tulang",
+    difficulty: "Mudah"
+  },
+  {
+    id: "q21",
+    question: "Tulang dahi yang berada di bagian depan tengkorak kepala disebut...",
+    options: [
+      "Os Frontale",
+      "Os Parietale",
+      "Os Occipitale",
+      "Os Temporale"
+    ],
+    correctIndex: 0,
+    explanation: "Os Frontale (tulang dahi) membentuk kening bagian depan kepala dan atap rongga mata.",
     category: "Tengkorak & Wajah",
-    difficulty: "Tantangan",
-    relatedBoneId: "cranium-occipital"
+    difficulty: "Mudah",
+    relatedBoneId: "cranium"
+  },
+  {
+    id: "q22",
+    question: "Tulang telapak tangan dalam istilah biologi anatomi dinamakan...",
+    options: [
+      "Karpal (Carpals)",
+      "Metakarpal (Metacarpals)",
+      "Tarsal (Tarsals)",
+      "Falang (Phalanges)"
+    ],
+    correctIndex: 1,
+    explanation: "Metakarpal adalah 5 batang tulang pipa mini yang membentuk telapak tangan, terletak di antara pergelangan tangan (karpal) dan jari-jari (falang).",
+    category: "Rangka Apendikular",
+    difficulty: "Mudah",
+    relatedBoneId: "metacarpals-r"
+  },
+  {
+    id: "q23",
+    question: "Ruas tulang belakang bagian pinggang (Vertebrae Lumbales) yang memiliki badan tulang paling tebal berjumlah...",
+    options: [
+      "3 ruas",
+      "5 ruas",
+      "7 ruas",
+      "12 ruas"
+    ],
+    correctIndex: 1,
+    explanation: "Ruas pinggang (Vertebrae Lumbales) berjumlah 5 ruas (L1-L5) dengan struktur tulang paling tebal dan kokoh karena menahan bobot tubuh bagian atas.",
+    category: "Rangka Aksial",
+    difficulty: "Mudah",
+    relatedBoneId: "vertebra-lumbar"
+  },
+  {
+    id: "q24",
+    question: "Persendian antartulang tengkorak yang saling mengunci rapat dan tidak dapat digerakkan sama sekali disebut sendi...",
+    options: [
+      "Sinartrosis (Sendi Mati)",
+      "Amfiartrosis (Sendi Kaku)",
+      "Diartrosis (Sendi Gerak)",
+      "Sinovial"
+    ],
+    correctIndex: 0,
+    explanation: "Sinartrosis (sendi mati) adalah hubungan antartulang yang disatukan jaringan fibrosa rapat tanpa celah gerak, seperti sutura pada tengkorak kepala.",
+    category: "Persendian & Gerak",
+    difficulty: "Mudah"
+  },
+  {
+    id: "q25",
+    question: "Fungsi utama sumsum tulang merah yang berada di dalam rongga tulang spons adalah...",
+    options: [
+      "Membentuk sel-sel darah (Hematopoiesis)",
+      "Menyimpan cadangan lemak",
+      "Menghasilkan hormon insulin",
+      "Menyaring udara pernapasan"
+    ],
+    correctIndex: 0,
+    explanation: "Sumsum tulang merah memproduksi sel darah merah (eritrosit), sel darah putih (leukosit), dan keping darah (trombosit) melalui proses hematopoiesis.",
+    category: "Kelainan & Kesehatan Tulang",
+    difficulty: "Mudah"
   }
 ];
 
 export function calculateRankTier(score: number, accuracyPercent: number): RankTier {
-  if (score >= 1200 && accuracyPercent === 100) return "Grandmaster Anatomi 👑";
-  if (score >= 900) return "Dokter Spesialis Rangka 🏆";
-  if (score >= 700) return "Ahli Osteologi 🥇";
-  if (score >= 500) return "Peneliti Biologi 🥈";
-  if (score >= 350) return "Calon Dokter 🥉";
-  if (score >= 200) return "Siswa Berprestasi ⭐";
+  if (score >= 1000 && accuracyPercent === 100) return "Grandmaster Anatomi 👑";
+  if (score >= 800) return "Dokter Spesialis Rangka 🏆";
+  if (score >= 600) return "Ahli Osteologi 🥇";
+  if (score >= 450) return "Peneliti Biologi 🥈";
+  if (score >= 300) return "Calon Dokter 🥉";
+  if (score >= 150) return "Siswa Berprestasi ⭐";
   return "Pembelajar Anatomi 📚";
 }
+

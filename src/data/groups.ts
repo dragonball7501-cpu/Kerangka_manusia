@@ -11,7 +11,7 @@ export const BONE_GROUPS: BoneGroupMeta[] = [
     iconName: "Brain",
     colorHex: "#38bdf8", // Sky blue
     defaultFocusPoint: [0, 2.3, 0],
-    defaultDistance: 1.1,
+    defaultDistance: 1.85,
   },
   {
     id: "vertebral-column",

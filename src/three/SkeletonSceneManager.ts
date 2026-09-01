@@ -40,18 +40,18 @@ export class SkeletonSceneManager {
   private isDark: boolean = true;
 
   // Camera animation target
-  private defaultCameraPos = new THREE.Vector3(0, 0.4, 6.8);
-  private defaultTargetPos = new THREE.Vector3(0, 0.4, 0);
-  private currentTarget = new THREE.Vector3(0, 0.4, 0);
-  private targetCameraPos = new THREE.Vector3(0, 0.4, 6.8);
-  private targetLookAt = new THREE.Vector3(0, 0.4, 0);
+  private defaultCameraPos = new THREE.Vector3(0, 0.35, 7.5);
+  private defaultTargetPos = new THREE.Vector3(0, 0.35, 0);
+  private currentTarget = new THREE.Vector3(0, 0.35, 0);
+  private targetCameraPos = new THREE.Vector3(0, 0.35, 7.5);
+  private targetLookAt = new THREE.Vector3(0, 0.35, 0);
   private isAnimatingCamera = false;
 
   // Orbit control & Touch state
   private isDragging = false;
   private isPanning = false;
   private previousPosition = { x: 0, y: 0 };
-  private spherical = new THREE.Spherical(6.8, Math.PI / 2, 0);
+  private spherical = new THREE.Spherical(7.5, Math.PI / 2, 0);
   private dragDistanceMoved = 0;
   private totalPointerMoved = 0;
   private wasMultiTouch = false;
@@ -68,7 +68,7 @@ export class SkeletonSceneManager {
   private animationFrameId: number | null = null;
   private resizeObserver: ResizeObserver | null = null;
 
-  constructor(container: HTMLElement, isDark: boolean = true, callbacks: SceneCallbacks) {
+  constructor(container: HTMLElement, isDark: boolean = false, callbacks: SceneCallbacks) {
     this.container = container;
     this.isDark = isDark;
     this.callbacks = callbacks;
@@ -216,10 +216,19 @@ export class SkeletonSceneManager {
     if (boneId && shouldAnimate) {
       const bone = BONES_DATA.find((b) => b.id === boneId);
       if (bone) {
+        const isPosteriorBone =
+          bone.group === "vertebral-column" ||
+          bone.id === "scapula" ||
+          bone.id === "floating-ribs" ||
+          (bone.model.cameraAngle && bone.model.cameraAngle[2] < 0);
+
+        const cameraAngle =
+          bone.model.cameraAngle || (isPosteriorBone ? ([0, 0.08, -1] as [number, number, number]) : undefined);
+
         this.focusOnBone(
           bone.model.focusPoint,
           bone.model.preferredDistance,
-          bone.model.cameraAngle
+          cameraAngle
         );
       }
     }
@@ -236,7 +245,9 @@ export class SkeletonSceneManager {
     if (groupId) {
       const group = BONE_GROUPS.find((g) => g.id === groupId);
       if (group) {
-        this.focusOnBone(group.defaultFocusPoint, group.defaultDistance);
+        const groupAngle: [number, number, number] | undefined =
+          groupId === "vertebral-column" ? [0, 0.08, -1] : undefined;
+        this.focusOnBone(group.defaultFocusPoint, group.defaultDistance, groupAngle);
       }
     }
   }
@@ -257,9 +268,10 @@ export class SkeletonSceneManager {
       : this.defaultTargetPos;
 
     const targetV = new THREE.Vector3(...target);
-    const dist = this.selectedBoneId
+    const rawDist = this.selectedBoneId
       ? BONES_DATA.find((b) => b.id === this.selectedBoneId)?.model.preferredDistance || 6.8
       : 6.8;
+    const dist = this.selectedBoneId ? Math.max(rawDist * 1.55, 2.75) : 7.2;
 
     this.targetLookAt.copy(targetV);
 
@@ -297,7 +309,7 @@ export class SkeletonSceneManager {
 
     // Adjust distance clamped cleanly so skeleton stays perfectly centered
     const currentDist = this.spherical.radius;
-    const newDist = THREE.MathUtils.clamp(currentDist + delta * 0.45, 0.6, 6.2);
+    const newDist = THREE.MathUtils.clamp(currentDist + delta * 0.45, 0.5, 9.5);
     this.spherical.radius = newDist;
     this.spherical.phi = THREE.MathUtils.clamp(this.spherical.phi, 0.08, Math.PI - 0.08);
 
@@ -323,24 +335,24 @@ export class SkeletonSceneManager {
 
     switch (region) {
       case "head":
-        this.targetLookAt.set(0, 2.35, 0);
-        this.targetCameraPos.set(0, 2.35, 1.6);
+        this.targetLookAt.set(0, 2.3, 0);
+        this.targetCameraPos.set(0, 2.3, 2.5);
         break;
       case "torso":
         this.targetLookAt.set(0, 1.4, 0);
-        this.targetCameraPos.set(0, 1.4, 2.2);
+        this.targetCameraPos.set(0, 1.4, 2.8);
         break;
       case "pelvis":
         this.targetLookAt.set(0, 0.45, 0);
-        this.targetCameraPos.set(0, 0.45, 1.9);
+        this.targetCameraPos.set(0, 0.45, 2.5);
         break;
       case "legs":
         this.targetLookAt.set(0, -0.65, 0);
-        this.targetCameraPos.set(0, -0.65, 2.4);
+        this.targetCameraPos.set(0, -0.65, 3.0);
         break;
       case "feet":
         this.targetLookAt.set(0, -1.45, 0);
-        this.targetCameraPos.set(0, -1.35, 1.7);
+        this.targetCameraPos.set(0, -1.35, 2.5);
         break;
       case "full":
         this.targetLookAt.copy(this.defaultTargetPos);
@@ -355,11 +367,15 @@ export class SkeletonSceneManager {
     angleOffset?: [number, number, number]
   ) {
     this.isAnimatingCamera = true;
+    // Target position with slight offset so the bone is centered in the upper/middle viewport area
     this.targetLookAt.set(focusPoint[0], focusPoint[1], focusPoint[2]);
 
+    // Comfortable distance: never too close / giant, keeping anatomical context clearly visible
+    const comfortableDistance = Math.max(distance * 1.55, 2.75);
+
     const offset = angleOffset
-      ? new THREE.Vector3(angleOffset[0], angleOffset[1], angleOffset[2]).normalize().multiplyScalar(distance)
-      : new THREE.Vector3(0, 0.05, distance);
+      ? new THREE.Vector3(angleOffset[0], angleOffset[1], angleOffset[2]).normalize().multiplyScalar(comfortableDistance)
+      : new THREE.Vector3(0, 0.05, comfortableDistance);
 
     this.targetCameraPos.copy(this.targetLookAt).add(offset);
   }
@@ -620,7 +636,8 @@ export class SkeletonSceneManager {
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      // Manual gesture zooming is disabled; rotation only
+      const delta = e.deltaY > 0 ? 0.35 : -0.35;
+      this.zoom(delta);
     };
 
     const onContextMenu = (e: MouseEvent) => {

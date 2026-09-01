@@ -133,11 +133,11 @@ export function LeaderboardModal({
                 </h2>
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-anton uppercase bg-white text-black border border-black shadow-[1px_1px_0px_#000]">
                   <Cloud className="w-3 h-3 text-cyan-600 stroke-[2.5]" />
-                  Cloud Online
+                  Top 100 Cloud
                 </span>
               </div>
               <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 mt-0.5">
-                Peringkat skor kuis anatomi rangka siswa SMA/MA
+                Papan peringkat 100 skor kuis anatomi terbaik siswa SMA/MA se-Indonesia
               </p>
             </div>
           </div>
