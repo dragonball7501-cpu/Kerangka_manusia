@@ -332,26 +332,26 @@ export function LeaderboardModal({
                     <div className="min-w-0">
                       {/* Name & Title */}
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="font-anton text-xs sm:text-sm uppercase tracking-wide truncate max-w-[150px] sm:max-w-[220px] text-black dark:text-white">
+                        <span className="font-anton text-xs sm:text-sm uppercase tracking-wide text-black dark:text-white">
                           {entry.name}
                         </span>
                         {index === 0 && (
-                          <span className="text-[10px] font-anton uppercase bg-yellow-300 text-black px-1.5 py-0.5 rounded border border-black">Juara 1</span>
+                          <span className="text-[10px] font-anton uppercase bg-yellow-300 text-black px-1.5 py-0.5 rounded border border-black shadow-[1px_1px_0px_#000]">Juara 1</span>
                         )}
                       </div>
 
                       {/* School & Grade */}
                       {(entry.school || entry.grade) && (
-                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-800 dark:text-cyan-300 truncate mt-0.5">
+                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-800 dark:text-cyan-300 mt-0.5 flex-wrap">
                           {entry.school && (
-                            <span className="flex items-center gap-1 truncate max-w-[140px] sm:max-w-[200px]">
+                            <span className="flex items-center gap-1">
                               <School className="w-3 h-3 shrink-0" />
                               {entry.school}
                             </span>
                           )}
                           {entry.school && entry.grade && <span>•</span>}
                           {entry.grade && (
-                            <span className="flex items-center gap-1 text-[10px] truncate max-w-[110px] sm:max-w-[160px]">
+                            <span className="flex items-center gap-1 text-[10px]">
                               <GraduationCap className="w-3 h-3 shrink-0" />
                               {entry.grade}
                             </span>
@@ -360,21 +360,19 @@ export function LeaderboardModal({
                       )}
 
                       {/* Stats & Tier */}
-                      <div className="flex items-center gap-2 text-[10px] sm:text-[11px] font-semibold text-slate-700 dark:text-slate-300 mt-0.5">
-                        <span className="truncate">{entry.rankTier}</span>
-                        <span>•</span>
-                        <span className="flex items-center gap-0.5">
+                      <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] font-semibold text-slate-700 dark:text-slate-300 mt-1 flex-wrap">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md font-anton uppercase tracking-wide text-[10px] sm:text-[11px] bg-purple-200 text-purple-950 border border-black shadow-[1px_1px_0px_#000] dark:bg-purple-950/80 dark:text-purple-200 dark:border-purple-400">
+                          {entry.rankTier}
+                        </span>
+                        <span className="flex items-center gap-1 font-bold text-slate-900 dark:text-slate-200">
                           <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
                           {entry.correctCount}/{entry.totalQuestions} ({accuracy}%)
                         </span>
                         {entry.timeSpentSeconds && (
-                          <>
-                            <span>•</span>
-                            <span className="flex items-center gap-0.5">
-                              <Clock className="w-3 h-3 text-slate-600 dark:text-slate-300 stroke-[2.5]" />
-                              {entry.timeSpentSeconds}s
-                            </span>
-                          </>
+                          <span className="flex items-center gap-1 font-bold text-slate-700 dark:text-slate-300">
+                            <Clock className="w-3 h-3 text-slate-600 dark:text-slate-300 stroke-[2.5]" />
+                            {entry.timeSpentSeconds}s
+                          </span>
                         )}
                       </div>
                     </div>
