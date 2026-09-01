@@ -42,7 +42,7 @@ export function BoneFocusHatchHUD({
         onMouseDown={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
-        className="absolute bottom-3 left-3 sm:bottom-5 sm:left-5 z-25 max-w-[320px] sm:max-w-[360px] w-full pointer-events-auto"
+        className="absolute bottom-20 sm:bottom-24 left-3 sm:left-6 z-25 max-w-[320px] sm:max-w-[360px] w-full pointer-events-auto"
       >
         <div className="relative rounded-2xl p-3.5 sm:p-4 border-2 sm:border-3 border-black bg-white/98 text-slate-950 shadow-[4px_4px_0px_#000000] backdrop-blur-md">
           {/* Header Row: Badges & Close Button */}
